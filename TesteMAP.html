@@ -1,0 +1,954 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DescarteJÁ - Localizador de Eco Pontos</title>
+
+    <!-- Fontes modernas -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #1b5e20;
+            --accent-color: #4caf50;
+            --text-color: #f3f4f6;
+            --light-text: #9ca3af;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --footer-bg: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--card-bg);
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+            .navbar .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary-color), #81c784);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+            .nav-links a, .nav-links button {
+                font-size: 0.95rem;
+                padding: 8px 16px;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                color: var(--primary-color);
+                transition: all 0.3s;
+                border-radius: 6px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+                .nav-links button:hover, .nav-links a:hover {
+                    background-color: var(--primary-color);
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #81c784);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('https://images.unsplash.com/photo-1587332064166-3c9b63d4ab8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
+                opacity: 0.15;
+                z-index: 0;
+            }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background-color: white;
+            color: var(--primary-color);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+            .cta-button:hover {
+                background-color: #e8f5e9;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+
+        /* Localizador Section */
+        .localizador-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 0 0 40px;
+            position: relative;
+        }
+
+            .section-title h2 {
+                font-size: 2rem;
+                color: var(--primary-color);
+                display: inline-block;
+                position: relative;
+                padding-bottom: 10px;
+            }
+
+                .section-title h2::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 80px;
+                    height: 3px;
+                    background: linear-gradient(to right, var(--primary-color), #81c784);
+                    border-radius: 3px;
+                }
+
+        .localizador-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .map-container {
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .info-panel {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .location-info {
+            background-color: rgba(46, 125, 50, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+            .location-info h3 {
+                color: var(--primary-color);
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .location-info p {
+                color: var(--light-text);
+                margin-bottom: 5px;
+            }
+
+        .eco-points-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .eco-point-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+            .eco-point-item:hover {
+                background-color: rgba(46, 125, 50, 0.1);
+                transform: translateY(-2px);
+            }
+
+            .eco-point-item h4 {
+                color: var(--primary-color);
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .eco-point-item p {
+                color: var(--light-text);
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+            }
+
+        .distance {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .status-open {
+            color: #4caf50;
+        }
+
+        .status-closed {
+            color: #f44336;
+        }
+
+        .status-unknown {
+            color: #ff9800;
+        }
+
+        .instructions {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+            .instructions h3 {
+                color: var(--primary-color);
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .instructions ol {
+                margin-left: 20px;
+                color: var(--light-text);
+            }
+
+            .instructions li {
+                margin-bottom: 10px;
+            }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: #d1d5db;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+            .footer-column h3::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 2px;
+                background: linear-gradient(to right, var(--primary-color), #81c784);
+            }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #9ca3af;
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+                .footer-links a:hover {
+                    color: white;
+                    padding-left: 5px;
+                }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+            .social-links a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background-color: #374151;
+                border-radius: 50%;
+                color: white;
+                transition: all 0.3s;
+            }
+
+                .social-links a:hover {
+                    background-color: var(--primary-color);
+                    transform: translateY(-3px);
+                }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .navbar .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .localizador-container {
+                grid-template-columns: 1fr;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        /* Loading e estados */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(46, 125, 50, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            background-color: rgba(244, 67, 54, 0.1);
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            border-radius: 8px;
+            color: #f44336;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 8px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">DescarteJÁ</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="Materiais.html"><i class="fas fa-recycle"></i> Materiais</a></li>
+                    <li><a href="#localizador"><i class="fas fa-map-marker-alt"></i> Localizador</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contato</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Encontre o Eco Ponto Mais Próximo de Você</h2>
+            <p>Nosso sistema identifica sua localização e mostra os pontos de descarte adequado mais próximos, com informações atualizadas.</p>
+            <button id="findEcoPoints" class="cta-button">
+                <i class="fas fa-map-marker-alt"></i> Encontrar Eco Pontos Próximos
+            </button>
+        </div>
+    </section>
+
+    <section id="localizador" class="localizador-section container">
+        <div class="section-title">
+            <h2>Localizador de Eco Pontos</h2>
+        </div>
+
+        <div id="statusMessage"></div>
+
+        <div class="localizador-container">
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <div class="info-panel">
+                <div class="location-info">
+                    <h3><i class="fas fa-info-circle"></i> Sua Localização</h3>
+                    <p id="userLocation">Clique no botão acima para detectar sua localização</p>
+                    <p id="locationAccuracy" style="display: none;">Precisão: <span id="accuracyValue"></span> metros</p>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">
+                        <i class="fas fa-recycle"></i> Eco Pontos Próximos
+                    </h3>
+                    <div id="ecoPointsList" class="eco-points-list">
+                        <div class="loading" id="pointsLoading" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Buscando eco pontos próximos...</p>
+                        </div>
+                        <p id="noPointsMessage">Nenhum eco ponto encontrado ainda. Clique no botão para buscar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3><i class="fas fa-question-circle"></i> Como Usar o Localizador</h3>
+            <ol>
+                <li>Clique no botão "Encontrar Eco Pontos Próximos" para permitir o acesso à sua localização</li>
+                <li>O sistema irá identificar sua posição atual e buscar os eco pontos mais próximos</li>
+                <li>Os resultados serão exibidos no mapa e na lista ao lado</li>
+                <li>Clique em um eco ponto na lista para visualizar sua localização no mapa</li>
+                <li>Use as informações de endereço e horário de funcionamento para planejar sua visita</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DescarteJÁ</h3>
+                    <p>Sua plataforma de referência para descarte adequado de resíduos. Juntos podemos construir um futuro mais sustentável.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="Materiais.html"><i class="fas fa-chevron-right"></i> Materiais</a></li>
+                        <li><a href="#localizador"><i class="fas fa-chevron-right"></i> Localizador</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Categorias de Resíduos</h3>
+                    <ul class="footer-links">
+                        <li><a href="organicos.html"><i class="fas fa-chevron-right"></i> Orgânicos</a></li>
+                        <li><a href="plasticos.html"><i class="fas fa-chevron-right"></i> Plásticos</a></li>
+                        <li><a href="papel.html"><i class="fas fa-chevron-right"></i> Papel e Papelão</a></li>
+                        <li><a href="vidros.html"><i class="fas fa-chevron-right"></i> Vidros</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Av. Sustentável, 456 - São Paulo, SP</a></li>
+                        <li><a href="mailto:contato@descarteja.com"><i class="fas fa-envelope"></i> contato@descarteja.com</a></li>
+                        <li><a href="tel:+551199999999"><i class="fas fa-phone"></i> (11) 9999-9999</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i> Seg-Sex: 9h às 18h</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 DescarteJÁ | Todos os direitos reservados. Desenvolvido com <i class="fas fa-heart" style="color: #e74c3c;"></i> pela equipe DescarteJÁ</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Variáveis globais
+        let map;
+        let userMarker;
+        let ecoPointMarkers = [];
+        let userLocation = null;
+
+        // Inicializar o mapa
+        function initMap() {
+            // Posição padrão (centro do Brasil)
+            const defaultPosition = [-15.7797, -47.9297];
+
+            // Criar o mapa
+            map = L.map('map').setView(defaultPosition, 5);
+
+            // Adicionar camada do mapa
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Adicionar marcador da posição do usuário (inicialmente oculto)
+            userMarker = L.marker(defaultPosition, {
+                icon: L.divIcon({
+                    className: 'user-location-marker',
+                    html: '<div style="background-color: #3b82f6; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                })
+            }).addTo(map);
+
+            // Adicionar popup ao marcador do usuário
+            userMarker.bindPopup("Sua localização aproximada").openPopup();
+        }
+
+        // Obter localização do usuário
+        function getUserLocation() {
+            // Mostrar mensagem de carregamento
+            document.getElementById('pointsLoading').style.display = 'flex';
+            document.getElementById('noPointsMessage').style.display = 'none';
+
+            // Limpar mensagens de status anteriores
+            document.getElementById('statusMessage').innerHTML = '';
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    // Sucesso
+                    function (position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const accuracy = position.coords.accuracy;
+
+                        userLocation = { lat, lng };
+
+                        // Atualizar a interface com a localização
+                        document.getElementById('userLocation').textContent =
+                            `Latitude: ${lat.toFixed(6)}, Longitude: ${lng.toFixed(6)}`;
+
+                        document.getElementById('locationAccuracy').style.display = 'block';
+                        document.getElementById('accuracyValue').textContent = Math.round(accuracy);
+
+                        // Atualizar o mapa
+                        updateMapPosition(lat, lng);
+
+                        // Buscar eco pontos próximos
+                        findNearbyEcoPoints(lat, lng);
+                    },
+                    // Erro
+                    function (error) {
+                        document.getElementById('pointsLoading').style.display = 'none';
+                        document.getElementById('noPointsMessage').style.display = 'block';
+
+                        let errorMessage = '';
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'Permissão de localização negada. Por favor, permita o acesso à sua localização para usar este recurso.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Informações de localização não disponíveis.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'A solicitação de localização expirou.';
+                                break;
+                            default:
+                                errorMessage = 'Ocorreu um erro desconhecido ao obter sua localização.';
+                        }
+
+                        document.getElementById('statusMessage').innerHTML =
+                            `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> ${errorMessage}</div>`;
+                    },
+                    // Opções
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    }
+                );
+            } else {
+                document.getElementById('pointsLoading').style.display = 'none';
+                document.getElementById('statusMessage').innerHTML =
+                    '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Geolocalização não é suportada por este navegador.</div>';
+            }
+        }
+
+        // Atualizar a posição do mapa
+        function updateMapPosition(lat, lng) {
+            // Atualizar a visualização do mapa
+            map.setView([lat, lng], 14);
+
+            // Atualizar a posição do marcador do usuário
+            userMarker.setLatLng([lat, lng]);
+        }
+
+        // Buscar eco pontos próximos (simulação com dados de exemplo)
+        function findNearbyEcoPoints(lat, lng) {
+            // Simular uma busca com dados de exemplo
+            setTimeout(() => {
+                // Dados de exemplo de eco pontos (baseados em localizações reais em São Paulo)
+                const ecoPoints = [
+                    {
+                        id: 1,
+                        name: "Eco Ponto Vila Mariana",
+                        address: "Rua Domingos de Morais, 256 - Vila Mariana, São Paulo - SP",
+                        lat: -23.5935,
+                        lng: -46.6392,
+                        materials: ["Papel", "Plástico", "Vidro", "Metal"],
+                        hours: "Seg-Sex: 8h-18h, Sáb: 8h-12h",
+                        distance: calculateDistance(lat, lng, -23.5935, -46.6392),
+                        status: "open"
+                    },
+                    {
+                        id: 2,
+                        name: "Eco Ponto Pinheiros",
+                        address: "Rua Teodoro Sampaio, 1370 - Pinheiros, São Paulo - SP",
+                        lat: -23.5587,
+                        lng: -46.6934,
+                        materials: ["Papel", "Plástico", "Vidro", "Metal", "Eletrônicos"],
+                        hours: "Seg-Sex: 7h-19h, Sáb: 7h-13h",
+                        distance: calculateDistance(lat, lng, -23.5587, -46.6934),
+                        status: "open"
+                    },
+                    {
+                        id: 3,
+                        name: "Eco Ponto Tatuapé",
+                        address: "Rua Melo Freire, 531 - Tatuapé, São Paulo - SP",
+                        lat: -23.5392,
+                        lng: -46.5763,
+                        materials: ["Papel", "Plástico", "Vidro", "Metal", "Óleo de Cozinha"],
+                        hours: "Seg-Sex: 9h-17h",
+                        distance: calculateDistance(lat, lng, -23.5392, -46.5763),
+                        status: "open"
+                    },
+                    {
+                        id: 4,
+                        name: "Eco Ponto Santana",
+                        address: "Av. Cruzeiro do Sul, 1700 - Santana, São Paulo - SP",
+                        lat: -23.5078,
+                        lng: -46.6253,
+                        materials: ["Papel", "Plástico", "Vidro", "Metal", "Pilhas", "Baterias"],
+                        hours: "Seg-Sex: 8h-17h, Sáb: 8h-12h",
+                        distance: calculateDistance(lat, lng, -23.5078, -46.6253),
+                        status: "closed"
+                    },
+                    {
+                        id: 5,
+                        name: "Eco Ponto Ipiranga",
+                        address: "Rua Silva Bueno, 1234 - Ipiranga, São Paulo - SP",
+                        lat: -23.5872,
+                        lng: -46.6067,
+                        materials: ["Papel", "Plástico", "Vidro", "Metal", "Eletrodomésticos"],
+                        hours: "Seg-Sex: 8h-18h",
+                        distance: calculateDistance(lat, lng, -23.5872, -46.6067),
+                        status: "open"
+                    }
+                ];
+
+                // Ordenar por distância
+                ecoPoints.sort((a, b) => a.distance - b.distance);
+
+                // Exibir os eco pontos na lista
+                displayEcoPoints(ecoPoints);
+
+                // Adicionar marcadores no mapa
+                addEcoPointMarkers(ecoPoints);
+
+                // Mostrar mensagem de sucesso
+                document.getElementById('statusMessage').innerHTML =
+                    `<div class="success-message"><i class="fas fa-check-circle"></i> ${ecoPoints.length} eco pontos encontrados próximos a você!</div>`;
+
+            }, 1500); // Simular um tempo de busca
+        }
+
+        // Calcular distância entre duas coordenadas (fórmula de Haversine)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Raio da Terra em km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c; // Distância em km
+            return distance;
+        }
+
+        // Exibir eco pontos na lista
+        function displayEcoPoints(ecoPoints) {
+            const ecoPointsList = document.getElementById('ecoPointsList');
+            const pointsLoading = document.getElementById('pointsLoading');
+
+            // Ocultar loading
+            pointsLoading.style.display = 'none';
+
+            if (ecoPoints.length === 0) {
+                document.getElementById('noPointsMessage').style.display = 'block';
+                return;
+            }
+
+            // Limpar lista anterior
+            ecoPointsList.innerHTML = '';
+
+            // Adicionar cada eco ponto à lista
+            ecoPoints.forEach(point => {
+                const pointElement = document.createElement('div');
+                pointElement.className = 'eco-point-item';
+                pointElement.dataset.id = point.id;
+
+                // Determinar classe de status
+                let statusClass = 'status-unknown';
+                let statusText = 'Status desconhecido';
+
+                if (point.status === 'open') {
+                    statusClass = 'status-open';
+                    statusText = 'Aberto';
+                } else if (point.status === 'closed') {
+                    statusClass = 'status-closed';
+                    statusText = 'Fechado';
+                }
+
+                pointElement.innerHTML = `
+                        <h4><i class="fas fa-recycle"></i> ${point.name}</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> ${point.address}</p>
+                        <p><i class="fas fa-clock"></i> ${point.hours}</p>
+                        <p><i class="fas fa-trash-alt"></i> Aceita: ${point.materials.join(', ')}</p>
+                        <div class="status-indicator ${statusClass}">
+                            <i class="fas fa-circle"></i> ${statusText}
+                        </div>
+                        <div class="distance">${point.distance.toFixed(1)} km</div>
+                    `;
+
+                // Adicionar evento de clique para focar no mapa
+                pointElement.addEventListener('click', () => {
+                    focusOnEcoPoint(point);
+                });
+
+                ecoPointsList.appendChild(pointElement);
+            });
+        }
+
+        // Adicionar marcadores de eco pontos no mapa
+        function addEcoPointMarkers(ecoPoints) {
+            // Limpar marcadores anteriores
+            ecoPointMarkers.forEach(marker => map.removeLayer(marker));
+            ecoPointMarkers = [];
+
+            // Adicionar novos marcadores
+            ecoPoints.forEach(point => {
+                // Determinar cor do marcador baseado no status
+                let markerColor = '#ff9800'; // Laranja para status desconhecido
+
+                if (point.status === 'open') {
+                    markerColor = '#4caf50'; // Verde para aberto
+                } else if (point.status === 'closed') {
+                    markerColor = '#f44336'; // Vermelho para fechado
+                }
+
+                const marker = L.marker([point.lat, point.lng], {
+                    icon: L.divIcon({
+                        className: 'eco-point-marker',
+                        html: `<div style="background-color: ${markerColor}; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`,
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8]
+                    })
+                }).addTo(map);
+
+                // Adicionar popup com informações
+                marker.bindPopup(`
+                        <div style="min-width: 200px;">
+                            <h4 style="margin: 0 0 10px; color: #2e7d32;">${point.name}</h4>
+                            <p style="margin: 0 0 5px; font-size: 0.9rem;">${point.address}</p>
+                            <p style="margin: 0 0 5px; font-size: 0.9rem;"><strong>Horário:</strong> ${point.hours}</p>
+                            <p style="margin: 0 0 5px; font-size: 0.9rem;"><strong>Aceita:</strong> ${point.materials.join(', ')}</p>
+                            <p style="margin: 0; font-size: 0.9rem;"><strong>Distância:</strong> ${point.distance.toFixed(1)} km</p>
+                        </div>
+                    `);
+
+                ecoPointMarkers.push(marker);
+            });
+        }
+
+        // Focar em um eco ponto específico no mapa
+        function focusOnEcoPoint(point) {
+            // Centralizar o mapa no eco ponto
+            map.setView([point.lat, point.lng], 16);
+
+            // Abrir o popup do marcador
+            const marker = ecoPointMarkers.find(m =>
+                m.getLatLng().lat === point.lat && m.getLatLng().lng === point.lng
+            );
+
+            if (marker) {
+                marker.openPopup();
+            }
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializar o mapa
+            initMap();
+
+            // Adicionar evento ao botão de busca
+            document.getElementById('findEcoPoints').addEventListener('click', getUserLocation);
+        });
+    </script>
+</body>
+</html>

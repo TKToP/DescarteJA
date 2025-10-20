@@ -1,0 +1,823 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - DescarteJÁ</title>
+
+    <!-- Fontes modernas -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #1b5e20;
+            --accent-color: #4caf50;
+            --light-green: #c8e6c9;
+            --text-color: #333333;
+            --light-text: #666666;
+            --bg-color: #ffffff;
+            --card-bg: #f8f9fa;
+            --footer-bg: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+            .navbar .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+            .logo:hover {
+                transform: scale(1.05);
+            }
+
+        .logo-text {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+            .nav-links a, .nav-links button {
+                font-size: 0.95rem;
+                padding: 8px 16px;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                color: var(--primary-color);
+                transition: all 0.3s;
+                border-radius: 6px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+                .nav-links button:hover, .nav-links a:hover {
+                    background-color: var(--primary-color);
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+
+        /* Cabeçalho da Página */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--light-green));
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+            .page-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+                background-size: cover;
+            }
+
+        .page-header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+            .section-title h1 {
+                font-size: 2.5rem;
+                color: var(--primary-color);
+                margin-bottom: 15px;
+                position: relative;
+                display: inline-block;
+            }
+
+                .section-title h1::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 80px;
+                    height: 3px;
+                    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+                    border-radius: 3px;
+                }
+
+            .section-title p {
+                color: var(--light-text);
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+        /* FAQ Items */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            background-color: var(--card-bg);
+        }
+
+            .faq-item:hover {
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+            }
+
+        .question {
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 18px 25px;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+            .question:hover {
+                background-color: var(--secondary-color);
+            }
+
+            .question::after {
+                content: "\f078";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                font-size: 0.9em;
+                transition: transform 0.3s ease;
+            }
+
+            .question.active::after {
+                transform: rotate(180deg);
+            }
+
+        .answer {
+            display: none;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-top: 1px solid #e5e7eb;
+            color: var(--text-color);
+        }
+
+            .answer.show {
+                display: block;
+                animation: fadeIn 0.3s ease;
+            }
+
+            .answer ul {
+                padding-left: 20px;
+                margin: 10px 0;
+            }
+
+            .answer li {
+                margin-bottom: 8px;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Referências */
+        .references {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+            .references h2 {
+                color: var(--primary-color);
+                margin-bottom: 20px;
+                text-align: center;
+                font-size: 1.8rem;
+            }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .reference-card {
+            padding: 20px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+            .reference-card h3 {
+                color: var(--primary-color);
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .reference-card ul {
+                list-style: none;
+                padding-left: 0;
+            }
+
+            .reference-card li {
+                margin-bottom: 10px;
+                padding-left: 20px;
+                position: relative;
+            }
+
+                .reference-card li::before {
+                    content: "→";
+                    position: absolute;
+                    left: 0;
+                    color: var(--primary-color);
+                }
+
+            .reference-card a {
+                color: var(--secondary-color);
+                text-decoration: underline;
+                transition: color 0.3s;
+            }
+
+                .reference-card a:hover {
+                    color: var(--primary-color);
+                }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: #d1d5db;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+            .footer-column h3::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 2px;
+                background: var(--light-green);
+            }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 12px;
+            }
+
+            .footer-links a {
+                color: #9ca3af;
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 1.1rem;
+            }
+
+                .footer-links a:hover {
+                    color: white;
+                    padding-left: 5px;
+                }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+            .social-links a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 45px;
+                height: 45px;
+                background-color: #374151;
+                border-radius: 50%;
+                color: white;
+                transition: all 0.3s;
+                font-size: 1.2rem;
+            }
+
+                .social-links a:hover {
+                    background-color: var(--primary-color);
+                    transform: translateY(-3px);
+                }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 1rem;
+        }
+
+        /* Controles de Acessibilidade */
+        .accessibility-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .font-btn {
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+            .font-btn:hover {
+                background: var(--secondary-color);
+                transform: scale(1.1);
+            }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .section-title h1 {
+                font-size: 2rem;
+            }
+
+            .navbar .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">DescarteJÁ</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="Materiais.html"><i class="fas fa-recycle"></i> Materiais</a></li>
+                    <li><a href="ecopontos.html"><i class="fas fa-map-marker-alt"></i> Ecopontos</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    <li><a href="quiz/quiz.html"><button type="button"><i class="fas fa-question"></i> QUIZ</button></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="page-header-content">
+            <div class="header-icon">
+                <i class="fas fa-question-circle"></i>
+            </div>
+            <h1 class="page-title">Perguntas Frequentes</h1>
+            <p class="page-subtitle">Encontre respostas para as dúvidas mais comuns sobre descarte adequado de resíduos</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="faq-section">
+            <div class="section-title">
+                <h1>Dúvidas Comuns</h1>
+                <p>Tire suas dúvidas sobre reciclagem, compostagem e descarte correto de diferentes tipos de materiais</p>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(0)">O que é coleta seletiva e como funciona?</div>
+                    <div class="answer">
+                        <p>A coleta seletiva é um sistema de recolhimento de materiais recicláveis previamente separados na fonte geradora. Funciona através da separação dos resíduos por tipo de material:</p>
+                        <ul>
+                            <li><strong>Papel e papelão:</strong> Jornais, revistas, caixas, embalagens</li>
+                            <li><strong>Plásticos:</strong> Garrafas, embalagens, sacolas</li>
+                            <li><strong>Vidros:</strong> Garrafas, potes, frascos</li>
+                            <li><strong>Metais:</strong> Latas, arames, pregos</li>
+                            <li><strong>Orgânicos:</strong> Restos de alimentos, podas de jardim</li>
+                        </ul>
+                        <p>Cada município pode ter um sistema diferente de coleta - porta a porta, em pontos de entrega voluntária ou através de cooperativas de catadores.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(1)">Como devo preparar os materiais para reciclagem?</div>
+                    <div class="answer">
+                        <p>A preparação correta dos materiais é essencial para uma reciclagem eficiente:</p>
+                        <ul>
+                            <li><strong>Lave as embalagens:</strong> Remova resíduos de alimentos e produtos</li>
+                            <li><strong>Separe por material:</strong> Não misture diferentes tipos no mesmo saco</li>
+                            <li><strong>Reduza o volume:</strong> Amasse garrafas e caixas para ocupar menos espaço</li>
+                            <li><strong>Remova excessos:</strong> Tire tampas, rótulos e partes não recicláveis</li>
+                            <li><strong>Verifique a limpeza:</strong> Materiais muito sujos podem contaminar o lote</li>
+                        </ul>
+                        <p>Essas práticas facilitam o trabalho nas cooperativas e melhoram a qualidade do material reciclado.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(2)">O que fazer com óleo de cozinha usado?</div>
+                    <div class="answer">
+                        <p>O óleo de cozinha usado nunca deve ser descartado na pia ou no lixo comum. Siga estas orientações:</p>
+                        <ul>
+                            <li><strong>Espere esfriar</strong> completamente antes de manusear</li>
+                            <li><strong>Armazene</strong> em garrafas PET bem fechadas</li>
+                            <li><strong>Procure pontos de coleta</strong> específicos para óleo usado</li>
+                            <li><strong>Algumas cidades</strong> têm coleta domiciliar especial</li>
+                            <li><strong>Postos de gasolina</strong> e supermercados costumam ter coletores</li>
+                        </ul>
+                        <p>1 litro de óleo pode contaminar até 25 mil litros de água. Quando reciclado, vira sabão, biodiesel e outros produtos.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(3)">Quais materiais não podem ser reciclados?</div>
+                    <div class="answer">
+                        <p>Alguns materiais não são aceitos na reciclagem convencional:</p>
+                        <ul>
+                            <li><strong>Papel sujo:</strong> Guardanapos, papel higiênico, fotografias</li>
+                            <li><strong>Plásticos complexos:</strong> Embalagens metalizadas, isopor, cabos</li>
+                            <li><strong>Vidros especiais:</strong> Espelhos, louças, cristais, pirex</li>
+                            <li><strong>Resíduos perigosos:</strong> Pilhas, baterias, lâmpadas, medicamentos</li>
+                            <li><strong>Materiais contaminados:</strong> Fraldas, absorventes, curativos</li>
+                            <li><strong>Adesivos e fita crepe:</strong> Dificultam a reciclagem do papel</li>
+                        </ul>
+                        <p>Estes materiais devem ter destinação específica ou seguir para aterros sanitários.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(4)">Como funciona a compostagem doméstica?</div>
+                    <div class="answer">
+                        <p>A compostagem transforma resíduos orgânicos em adubo natural. Veja como fazer:</p>
+                        <ul>
+                            <li><strong>Escolha o local:</strong> Baldes, caixas ou composteiras específicas</li>
+                            <li><strong>Misture materiais:</strong> 2 partes de úmidos (restos de comida) para 1 parte de secos (folhas, serragem)</li>
+                            <li><strong>Revire regularmente:</strong> Para aerear e acelerar a decomposição</li>
+                            <li><strong>Controle a umidade:</strong> Deve estar como uma esponja molhada</li>
+                            <li><strong>Espere 2-3 meses:</strong> Para obter o composto pronto</li>
+                        </ul>
+                        <p>Evite carnes, laticínios e óleos na compostagem caseira, pois atraem animais e causam mau cheiro.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(5)">Onde descartar eletrônicos e pilhas?</div>
+                    <div class="answer">
+                        <p>Estes materiais contêm substâncias tóxicas e precisam de descarte especial:</p>
+                        <ul>
+                            <li><strong>Lojas de eletrônicos:</strong> Muitas aceitam produtos usados</li>
+                            <li><strong>Fabricantes:</strong> Algumas têm programas de logística reversa</li>
+                            <li><strong>Ecopontos:</strong> Locais específicos para resíduos especiais</li>
+                            <li><strong>Cooperativas:</strong> Algumas são especializadas em eletrônicos</li>
+                            <li><strong>Supermercados:</strong> Costumam ter coletores para pilhas e baterias</li>
+                        </ul>
+                        <p>Nunca descarte no lixo comum - metais pesados como mercúrio, chumbo e cádmio contaminam o solo e a água.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(6)">Quais os benefícios da reciclagem para o meio ambiente?</div>
+                    <div class="answer">
+                        <p>A reciclagem traz diversos benefícios ambientais:</p>
+                        <ul>
+                            <li><strong>Economia de recursos naturais:</strong> Reduz a extração de matéria-prima</li>
+                            <li><strong>Poupança de energia:</strong> Consome menos energia que a produção a partir de matérias-primas virgens</li>
+                            <li><strong>Redução da poluição:</strong> Diminui emissões de gases do efeito estufa</li>
+                            <li><strong>Preservação de aterros:</strong> Aumenta a vida útil dos aterros sanitários</li>
+                            <li><strong>Proteção da biodiversidade:</strong> Reduz impactos sobre ecossistemas</li>
+                            <li><strong>Economia de água:</strong> Muitos processos de reciclagem usam menos água</li>
+                        </ul>
+                        <p>Além disso, gera empregos e movimenta a economia através das cooperativas e indústrias de reciclagem.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleAnswer(7)">O que são os símbolos de reciclagem nas embalagens?</div>
+                    <div class="answer">
+                        <p>Os símbolos nas embalagens fornecem informações importantes:</p>
+                        <ul>
+                            <li><strong>Triângulo de Möbius:</strong> Indica que o material é reciclável</li>
+                            <li><strong>Triângulo com número:</strong> Identifica o tipo de plástico (1 PET, 2 PEAD, etc.)</li>
+                            <li><strong>Ponto Verde:</strong> Significa que o fabricante contribui financeiramente para sistemas de reciclagem</li>
+                            <li><strong>Tidy Man:</strong> Simboliza a responsabilidade do consumidor no descarte</li>
+                            <li><strong>Metal reciclável:</strong> Símbolo específico para alumínio ou aço</li>
+                            <li><strong>Vidro reciclável:</strong> Representado por um recipiente de vidro</li>
+                        </ul>
+                        <p>Conhecer estes símbolos ajuda na separação correta dos materiais.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Referências -->
+            <div class="references">
+                <h2><i class="fas fa-link"></i> Fontes e Referências</h2>
+                <div class="reference-grid">
+                    <div class="reference-card">
+                        <h3><i class="fas fa-book"></i> Legislação e Políticas</h3>
+                        <ul>
+                            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2010/lei/l12305.htm" target="_blank">Política Nacional de Resíduos Sólidos</a></li>
+                            <li><a href="https://www.mma.gov.br/cidades-sustentaveis/residuos-solidos" target="_blank">MMA - Resíduos Sólidos</a></li>
+                            <li><a href="https://www.ibama.gov.br/" target="_blank">IBAMA - Legislação Ambiental</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="reference-card">
+                        <h3><i class="fas fa-recycle"></i> Reciclagem no Brasil</h3>
+                        <ul>
+                            <li><a href="https://www.abrelpe.org.br/" target="_blank">ABRELPE - Associação Brasileira de Empresas de Limpeza</a></li>
+                            <li><a href="https://cempre.org.br/" target="_blank">CEMPRE - Compromisso Empresarial para Reciclagem</a></li>
+                            <li><a href="https://www.reciclasampa.com.br/" target="_blank">Recicla Sampa - Informações sobre Reciclagem</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="reference-card">
+                        <h3><i class="fas fa-leaf"></i> Compostagem e Orgânicos</h3>
+                        <ul>
+                            <li><a href="https://www.embrapa.br/tema-compostagem" target="_blank">EMBRAPA - Compostagem</a></li>
+                            <li><a href="https://www.idec.org.br/consultas/dicas-e-direitos/como-fazer-uma-composteira-domestica" target="_blank">IDEC - Composteira Doméstica</a></li>
+                            <li><a href="https://www.ecycle.com.br/compostagem/" target="_blank">eCycle - Guia de Compostagem</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="reference-card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Resíduos Perigosos</h3>
+                        <ul>
+                            <li><a href="https://www.gov.br/anvisa/pt-br" target="_blank">ANVISA - Descarte de Medicamentos</a></li>
+                            <li><a href="https://www.greenpeace.org/brasil/" target="_blank">Greenpeace - Campanhas Ambientais</a></li>
+                            <li><a href="https://www.abetre.org.br/" target="_blank">ABETRE - Associação Brasileira de Resíduos</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="reference-card">
+                        <h3><i class="fas fa-graduation-cap"></i> Educação Ambiental</h3>
+                        <ul>
+                            <li><a href="https://www.mma.gov.br/educacao-ambiental" target="_blank">MMA - Educação Ambiental</a></li>
+                            <li><a href="https://www.wwf.org.br/" target="_blank">WWF Brasil - Conservação Ambiental</a></li>
+                            <li><a href="https://www.socioambiental.org/" target="_blank">ISA - Instituto Socioambiental</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="reference-card">
+                        <h3><i class="fas fa-chart-line"></i> Dados e Estatísticas</h3>
+                        <ul>
+                            <li><a href="https://www.ibge.gov.br/estatisticas/multidominio/meio-ambiente/22827-2021-pesquisa-nacional-de-saneamento-basico.html" target="_blank">IBGE - Pesquisa de Saneamento</a></li>
+                            <li><a href="https://www.snirh.gov.br/" target="_blank">SNIRH - Sistema Nacional de Informações</a></li>
+                            <li><a href="https://www.ipea.gov.br/" target="_blank">IPEA - Instituto de Pesquisa Econômica</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>DescarteJÁ</h3>
+                        <p>Sua plataforma de referência para descarte adequado de resíduos. Juntos podemos construir um futuro mais sustentável.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                            <li><a href="Materiais.html"><i class="fas fa-chevron-right"></i> Materiais</a></li>
+                            <li><a href="ecopontos.html"><i class="fas fa-chevron-right"></i> Encontrar Ecopontos</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Categorias</h3>
+                        <ul class="footer-links">
+                            <li><a href="organicos.html"><i class="fas fa-chevron-right"></i> Orgânicos</a></li>
+                            <li><a href="plasticos.html"><i class="fas fa-chevron-right"></i> Plásticos</a></li>
+                            <li><a href="papel.html"><i class="fas fa-chevron-right"></i> Papel e Papelão</a></li>
+                            <li><a href="vidros.html"><i class="fas fa-chevron-right"></i> Vidros</a></li>
+                            <li><a href="metais.html"><i class="fas fa-chevron-right"></i> Metais</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Contato</h3>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Av. Sustentável, 456 - São Paulo, SP</a></li>
+                            <li><a href="mailto:contato@descarteja.com"><i class="fas fa-envelope"></i> contato@descarteja.com</a></li>
+                            <li><a href="tel:+551199999999"><i class="fas fa-phone"></i> (11) 9999-9999</a></li>
+                            <li><a href="#"><i class="fas fa-clock"></i> Seg-Sex: 9h às 18h</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2025 DescarteJÁ | Todos os direitos reservados. Desenvolvido com <i class="fas fa-heart" style="color: #e74c3c;"></i> pela equipe DescarteJÁ</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="accessibility-controls">
+        <button class="font-btn" onclick="increaseFontSize()" title="Aumentar fonte">A+</button>
+        <button class="font-btn" onclick="resetFontSize()" title="Reduzir fonte">A-</button>
+    </div>
+
+    <script>
+        function toggleAnswer(index) {
+            const questions = document.querySelectorAll('.question');
+            const answers = document.querySelectorAll('.answer');
+
+            answers.forEach((answer, i) => {
+                if (i === index) {
+                    answer.classList.toggle('show');
+                    questions[i].classList.toggle('active');
+                } else {
+                    answer.classList.remove('show');
+                    questions[i].classList.remove('active');
+                }
+            });
+        }
+
+        // Função para aumentar ainda mais o tamanho da fonte se necessário
+        function increaseFontSize() {
+            const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+            document.body.style.fontSize = (currentSize + 2) + 'px';
+
+            // Salvar preferência no localStorage
+            localStorage.setItem('fontSize', document.body.style.fontSize);
+        }
+
+        // Função para voltar ao tamanho normal
+        function resetFontSize() {
+            document.body.style.fontSize = '18px';
+            localStorage.setItem('fontSize', '18px');
+        }
+
+        // Aplicar tamanho salvo ao carregar a página
+        window.addEventListener('load', function() {
+            const savedSize = localStorage.getItem('fontSize');
+            if (savedSize) {
+                document.body.style.fontSize = savedSize;
+            }
+        });
+
+        // Efeito suave de rolagem para os links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
