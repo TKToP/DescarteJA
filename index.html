@@ -1,9 +1,9 @@
-
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DescarteJÁ - Aprenda as melhores práticas para o descarte correto de resíduos e contribua para um planeta mais limpo e sustentável.">
     <title>DescarteJÁ - Descarte Apropriado de Lixo</title>
 
     <!-- Fontes modernas -->
@@ -15,13 +15,18 @@
     <style>
         :root {
             --primary-color: #2e7d32;
-            --secondary-color: #1b5e20;
-            --accent-color: #4caf50;
+            --primary-dark: #1b5e20;
+            --primary-light: #4caf50;
+            --primary-lighter: #81c784;
             --text-color: #1f2937;
-            --light-text: #6b7280;
+            --text-light: #6b7280;
             --bg-color: #ffffff;
             --card-bg: #f9fafb;
             --footer-bg: #111827;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
         }
 
         * {
@@ -30,17 +35,28 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff !important;
-            color: #1f2937 !important;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         a {
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
         }
 
         .container {
@@ -49,21 +65,34 @@
             padding: 0 20px;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         /* Navbar */
         .navbar {
-            background-color: #f9fafb !important;
+            background-color: var(--card-bg);
             padding: 15px 0;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
-            .navbar .container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         .logo {
             display: flex;
@@ -71,16 +100,16 @@
             gap: 10px;
         }
 
-            .logo img {
-                height: 40px;
-                width: auto;
-            }
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
 
         .logo-text {
             font-family: 'Lora', serif;
             font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(to right, #2e7d32, #81c784);
+            background: linear-gradient(to right, var(--primary-color), var(--primary-lighter));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -92,30 +121,38 @@
             align-items: center;
         }
 
-            .nav-links a, .nav-links button {
-                font-size: 0.95rem;
-                padding: 8px 16px;
-                border: none;
-                background-color: transparent;
-                cursor: pointer;
-                color: #2e7d32 !important;
-                transition: all 0.3s;
-                border-radius: 6px;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                gap: 5px;
-            }
+        .nav-links a, .nav-links button {
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: var(--transition);
+            border-radius: 6px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-                .nav-links button:hover, .nav-links a:hover {
-                    background-color: #2e7d32 !important;
-                    color: #fff !important;
-                    transform: translateY(-2px);
-                }
+        .nav-links button:hover, .nav-links a:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #2e7d32, #81c784);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-lighter));
             color: white;
             text-align: center;
             padding: 120px 20px;
@@ -124,17 +161,17 @@
             overflow: hidden;
         }
 
-            .hero::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: url('https://images.unsplash.com/photo-1587332064166-3c9b63d4ab8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
-                opacity: 0.15;
-                z-index: 0;
-            }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1587332064166-3c9b63d4ab8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
 
         .hero-content {
             position: relative;
@@ -157,11 +194,11 @@
 
         .cta-button {
             background-color: white;
-            color: #2e7d32 !important;
+            color: var(--primary-color);
             padding: 14px 32px;
             border-radius: 8px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: inline-flex;
             align-items: center;
@@ -169,11 +206,11 @@
             font-size: 1rem;
         }
 
-            .cta-button:hover {
-                background-color: #e8f5e9;
-                transform: translateY(-3px);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            }
+        .cta-button:hover {
+            background-color: #e8f5e9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
 
         /* Services Section */
         .section-title {
@@ -182,25 +219,25 @@
             position: relative;
         }
 
-            .section-title h2 {
-                font-size: 2rem;
-                color: #2e7d32 !important;
-                display: inline-block;
-                position: relative;
-                padding-bottom: 10px;
-            }
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            display: inline-block;
+            position: relative;
+            padding-bottom: 10px;
+        }
 
-                .section-title h2::after {
-                    content: "";
-                    position: absolute;
-                    bottom: 0;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    width: 80px;
-                    height: 3px;
-                    background: linear-gradient(to right, #2e7d32, #81c784);
-                    border-radius: 3px;
-                }
+        .section-title h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-lighter));
+            border-radius: 3px;
+        }
 
         .materials-grid {
             display: grid;
@@ -210,46 +247,52 @@
         }
 
         .material-card {
-            background-color: #f9fafb !important;
-            border-radius: 12px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
             border: 1px solid #e5e7eb;
+            position: relative;
         }
 
-            .material-card:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            }
+        .material-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
 
         .material-img {
             height: 180px;
             width: 100%;
             object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .material-card:hover .material-img {
+            transform: scale(1.05);
         }
 
         .material-content {
             padding: 20px;
         }
 
-            .material-content h3 {
-                font-size: 1.3rem;
-                margin-bottom: 10px;
-                color: #2e7d32 !important;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .material-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-            .material-content p {
-                color: #6b7280 !important;
-                margin-bottom: 15px;
-                font-size: 0.95rem;
-            }
+        .material-content p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
 
         .read-more {
-            color: #2e7d32 !important;
+            color: var(--primary-color);
             font-weight: 600;
             font-size: 0.9rem;
             display: flex;
@@ -257,17 +300,9 @@
             gap: 5px;
         }
 
-        .overlay {
-            background-color: rgba(249, 250, 251, 0.9);
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
+        .read-more:hover {
+            color: var(--primary-dark);
         }
-
-            .read-more:hover {
-                color: #1b5e20 !important;
-            }
 
         /* About Section */
         .about-section {
@@ -279,31 +314,48 @@
 
         .about-img {
             flex: 1;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-hover);
+            position: relative;
         }
 
-            .about-img img {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
+        .about-img::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, rgba(46, 125, 50, 0.2), transparent);
+            z-index: 1;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-img:hover img {
+            transform: scale(1.03);
+        }
 
         .about-content {
             flex: 1;
         }
 
-            .about-content h2 {
-                font-size: 1.8rem;
-                margin-bottom: 20px;
-                color: #2e7d32 !important;
-            }
+        .about-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
 
-            .about-content p {
-                margin-bottom: 15px;
-                color: #6b7280 !important;
-            }
+        .about-content p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
 
         .stats {
             display: flex;
@@ -314,40 +366,46 @@
         .stat-item {
             text-align: center;
             padding: 15px;
-            background-color: #f9fafb !important;
+            background-color: var(--card-bg);
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
             flex: 1;
             border: 1px solid #e5e7eb;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         .stat-number {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #2e7d32 !important;
+            color: var(--primary-color);
             margin-bottom: 5px;
         }
 
         .stat-label {
             font-size: 0.9rem;
-            color: #6b7280 !important;
+            color: var(--text-light);
         }
 
         /* Contact Section */
         .contact-section {
-            background-color: #f9fafb !important;
+            background-color: var(--card-bg);
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             margin-bottom: 60px;
             border: 1px solid #e5e7eb;
         }
 
-            .contact-section h2 {
-                text-align: center;
-                margin-bottom: 30px;
-                color: #2e7d32 !important;
-            }
+        .contact-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
 
         .contact-form {
             max-width: 600px;
@@ -358,38 +416,38 @@
             margin-bottom: 20px;
         }
 
-            .form-group label {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 500;
-                color: #1f2937 !important;
-            }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
 
-            .form-group input,
-            .form-group textarea {
-                width: 100%;
-                padding: 12px 15px;
-                border: 1px solid #d1d5db;
-                border-radius: 8px;
-                font-family: 'Inter', sans-serif;
-                transition: all 0.3s;
-                background-color: white;
-            }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            background-color: white;
+        }
 
-                .form-group input:focus,
-                .form-group textarea:focus {
-                    outline: none;
-                    border-color: #2e7d32;
-                    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
-                }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
 
-            .form-group textarea {
-                min-height: 150px;
-                resize: vertical;
-            }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
 
         .submit-btn {
-            background-color: #2e7d32;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             padding: 14px 28px;
@@ -397,7 +455,7 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: var(--transition);
             width: 100%;
             display: flex;
             align-items: center;
@@ -405,14 +463,14 @@
             gap: 10px;
         }
 
-            .submit-btn:hover {
-                background-color: #1b5e20;
-                transform: translateY(-2px);
-            }
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
 
         /* Footer */
         footer {
-            background-color: #111827 !important;
+            background-color: var(--footer-bg);
             color: #d1d5db;
             padding: 60px 0 30px;
         }
@@ -432,36 +490,36 @@
             padding-bottom: 10px;
         }
 
-            .footer-column h3::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 2px;
-                background: linear-gradient(to right, #2e7d32, #81c784);
-            }
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-lighter));
+        }
 
         .footer-links {
             list-style: none;
         }
 
-            .footer-links li {
-                margin-bottom: 10px;
-            }
+        .footer-links li {
+            margin-bottom: 10px;
+        }
 
-            .footer-links a {
-                color: #9ca3af;
-                transition: all 0.3s;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
+        .footer-links a {
+            color: #9ca3af;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-                .footer-links a:hover {
-                    color: white;
-                    padding-left: 5px;
-                }
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
 
         .social-links {
             display: flex;
@@ -469,22 +527,22 @@
             margin-top: 20px;
         }
 
-            .social-links a {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                background-color: #374151;
-                border-radius: 50%;
-                color: white;
-                transition: all 0.3s;
-            }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #374151;
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
 
-                .social-links a:hover {
-                    background-color: #2e7d32;
-                    transform: translateY(-3px);
-                }
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
 
         .footer-bottom {
             text-align: center;
@@ -494,16 +552,84 @@
             font-size: 0.9rem;
         }
 
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .navbar .container {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
             }
 
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-toggle {
+                display: block;
             }
 
             .hero h2 {
@@ -521,46 +647,71 @@
             .stats {
                 flex-direction: column;
             }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 80px 20px;
+            }
+
+            .contact-section {
+                padding: 20px;
+            }
+
+            .material-card {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
-<body style="background-color: #ffffff; color: #1f2937;">
-    <form id="form1" runat="server">
-        <header>
-            <nav class="navbar">
-                <div class="container">
-                    <a href="index.html" class="logo">
-                        <!-- Logo SVG inline para DescarteJÁ -->
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="40" height="40" rx="8" fill="url(#paint0_linear)" />
-                            <path d="M12 12H16V28H12V12Z" fill="white" />
-                            <path d="M18 12H22V28H18V12Z" fill="white" />
-                            <path d="M24 12H28V28H24V12Z" fill="white" />
-                            <path d="M12 12H28V16H12V12Z" fill="white" />
-                            <path d="M12 24H28V28H12V24Z" fill="white" />
-                            <defs>
-                                <linearGradient id="paint0_linear" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#1b5e20" />
-                                    <stop offset="1" stop-color="#81c784" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                        <span class="logo-text">DescarteJÁ</span>
-                    </a>
-                    <ul class="nav-links">
-                        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="Materiais.html"><i class="fas fa-recycle"></i> Materiais</a></li>
-                        <li><a href="#about"><i class="fas fa-info-circle"></i> Sobre</a></li>
-                        <li><a href="#contact"><i class="fas fa-envelope"></i> Contato</a></li>
-                        <li><a href="PagFAQ.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
-                        <li><a href="ecopontos.html"><button type="button"><i class="fas fa-map-marker-alt"></i> Ecopontos</button></a></li
-                    </ul>
-                </div>
-            </nav>
-        </header>
+<body>
+    <header>
+        <nav class="navbar" aria-label="Navegação principal">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <!-- Logo SVG inline para DescarteJÁ -->
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect width="40" height="40" rx="8" fill="url(#paint0_linear)" />
+                        <path d="M12 12H16V28H12V12Z" fill="white" />
+                        <path d="M18 12H22V28H18V12Z" fill="white" />
+                        <path d="M24 12H28V28H24V12Z" fill="white" />
+                        <path d="M12 12H28V16H12V12Z" fill="white" />
+                        <path d="M12 24H28V28H12V24Z" fill="white" />
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#1b5e20" />
+                                <stop offset="1" stop-color="#81c784" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">DescarteJÁ</span>
+                </a>
+                <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="Materiais.html"><i class="fas fa-recycle"></i> Materiais</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> Sobre</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contato</a></li>
+                    <li><a href="PagFAQ.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    <li><a href="ecopontos.html"><button type="button"><i class="fas fa-map-marker-alt"></i> Ecopontos</button></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
+    <main>
         <section id="home" class="hero">
             <div class="hero-content">
+                <h1 class="sr-only">DescarteJÁ - Descarte Apropriado de Lixo</h1>
                 <h2>Descarte Apropriado de Lixo: Preserve o Meio Ambiente</h2>
                 <p>Aprenda as melhores práticas para o descarte correto de resíduos e contribua para um planeta mais limpo e sustentável.</p>
                 <a href="Materiais.html" class="cta-button">
@@ -575,59 +726,59 @@
             </div>
 
             <div class="materials-grid">
-                <div class="material-card">
+                <article class="material-card">
                     <img src="https://plus.unsplash.com/premium_photo-1723300630191-084f83cbdf6f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170" alt="Resíduos Orgânicos" class="material-img">
                     <div class="material-content">
                         <h3><i class="fas fa-leaf"></i> Orgânicos</h3>
                         <p>Aprenda a compostagem e o descarte adequado de restos de alimentos, folhas e outros materiais biodegradáveis.</p>
                         <a href="organicos.html" class="read-more">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
+                </article>
 
-                <div class="material-card">
+                <article class="material-card">
                     <img src="https://blog.brkambiental.com.br/wp-content/uploads/2021/04/lixo-plastico.jpg" alt="Plásticos" class="material-img">
                     <div class="material-content">
                         <h3><i class="fas fa-wine-bottle"></i> Plásticos</h3>
                         <p>Descubra como identificar e separar diferentes tipos de plásticos para uma reciclagem mais eficiente.</p>
                         <a href="plasticos.html" class="read-more">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
+                </article>
 
-                <div class="material-card">
+                <article class="material-card">
                     <img src="https://images.unsplash.com/photo-1558047454-117667853aea?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687" alt="Papel e Papelão" class="material-img">
                     <div class="material-content">
                         <h3><i class="fas fa-file-alt"></i> Papel e Papelão</h3>
                         <p>Conheça as técnicas corretas para descarte e reciclagem de papel, evitando a contaminação por outros materiais.</p>
                         <a href="papel.html" class="read-more">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
+                </article>
 
-                <div class="material-card">
+                <article class="material-card">
                     <img src="https://images.unsplash.com/photo-1654718421032-8aee5603b51f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1125" alt="Vidros" class="material-img">
                     <div class="material-content">
                         <h3><i class="fas fa-wine-glass-alt"></i> Vidros</h3>
                         <p>Saiba como descartar vidros de forma segura e como eles podem ser reciclados infinitamente.</p>
                         <a href="vidros.html" class="read-more">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
+                </article>
 
-                <div class="material-card">
+                <article class="material-card">
                     <img src="https://www.gruporecicla.com.br/wp-content/uploads/2020/01/08-01-Post-Link.jpg" alt="Metais" class="material-img">
                     <div class="material-content">
                         <h3><i class="fas fa-cogs"></i> Metais</h3>
                         <p>Entenda a importância da reciclagem de metais e como descartar latas, alumínio e outros materiais metálicos.</p>
                         <a href="metais.html" class="read-more">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
+                </article>
 
-                <div class="material-card">
+                <article class="material-card">
                     <img src="https://sevensolucoesambientais.com.br/imagens/tratamento-de-residuos-perigosos.jpg" alt="Resíduos Perigosos" class="material-img">
                     <div class="material-content">
                         <h3><i class="fas fa-exclamation-triangle"></i> Perigosos</h3>
                         <p>Descubra como descartar corretamente pilhas, baterias, lâmpadas, medicamentos e outros materiais perigosos.</p>
                         <a href="perigosos.html" class="read-more">Ler mais <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
@@ -662,7 +813,7 @@
         <section id="contact" class="container">
             <div class="contact-section">
                 <h2>Fale Conosco</h2>
-                <form class="contact-form">
+                <form class="contact-form" id="contactForm">
                     <div class="form-group">
                         <label for="name">Nome</label>
                         <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
@@ -683,91 +834,162 @@
                         <textarea id="message" name="message" placeholder="Sua mensagem..." required></textarea>
                     </div>
 
-                    <button type="submit" class="submit-btn">
+                    <button type="submit" class="submit-btn" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> Enviar Mensagem
                     </button>
                 </form>
             </div>
         </section>
+    </main>
 
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-column">
-                        <h3>DescarteJÁ</h3>
-                        <p>Sua plataforma de referência para descarte adequado de resíduos. Juntos podemos construir um futuro mais sustentável.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="footer-column">
-                        <h3>Links Rápidos</h3>
-                        <ul class="footer-links">
-                            <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
-                            <li><a href="Materiais.html"><i class="fas fa-chevron-right"></i> Materiais</a></li>
-                            <li><a href="#about"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
-                            <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contato</a></li>
-                            <li><a href="PagFAQ.html"><i class="fas fa-chevron-right"></i> FAQ</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h3>Categorias de Resíduos</h3>
-                        <ul class="footer-links">
-                            <li><a href="organicos.html"><i class="fas fa-chevron-right"></i> Orgânicos</a></li>
-                            <li><a href="plasticos.html"><i class="fas fa-chevron-right"></i> Plásticos</a></li>
-                            <li><a href="papel.html"><i class="fas fa-chevron-right"></i> Papel e Papelão</a></li>
-                            <li><a href="vidros.html"><i class="fas fa-chevron-right"></i> Vidros</a></li>
-                            <li><a href="metais.html"><i class="fas fa-chevron-right"></i> Metais</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h3>Contato</h3>
-                        <ul class="footer-links">
-                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Av. Sustentável, 456 - São Paulo, SP</a></li>
-                            <li><a href="mailto:contato@descarteja.com"><i class="fas fa-envelope"></i> contato@descarteja.com</a></li>
-                            <li><a href="tel:+551199999999"><i class="fas fa-phone"></i> (11) 9999-9999</a></li>
-                            <li><a href="#"><i class="fas fa-clock"></i> Seg-Sex: 9h às 18h</a></li>
-                        </ul>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DescarteJÁ</h3>
+                    <p>Sua plataforma de referência para descarte adequado de resíduos. Juntos podemos construir um futuro mais sustentável.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
 
-                <div class="footer-bottom">
-                    <p>&copy; 2025 DescarteJÁ | Todos os direitos reservados. Desenvolvido pela equipe DescarteJÁ</p>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="Materiais.html"><i class="fas fa-chevron-right"></i> Materiais</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> Sobre Nós</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contato</a></li>
+                        <li><a href="PagFAQ.html"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Categorias de Resíduos</h3>
+                    <ul class="footer-links">
+                        <li><a href="organicos.html"><i class="fas fa-chevron-right"></i> Orgânicos</a></li>
+                        <li><a href="plasticos.html"><i class="fas fa-chevron-right"></i> Plásticos</a></li>
+                        <li><a href="papel.html"><i class="fas fa-chevron-right"></i> Papel e Papelão</a></li>
+                        <li><a href="vidros.html"><i class="fas fa-chevron-right"></i> Vidros</a></li>
+                        <li><a href="metais.html"><i class="fas fa-chevron-right"></i> Metais</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Av. Sustentável, 456 - São Paulo, SP</a></li>
+                        <li><a href="mailto:contato@descarteja.com"><i class="fas fa-envelope"></i> contato@descarteja.com</a></li>
+                        <li><a href="tel:+551199999999"><i class="fas fa-phone"></i> (11) 9999-9999</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i> Seg-Sex: 9h às 18h</a></li>
+                    </ul>
                 </div>
             </div>
-        </footer>
-    </form>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 DescarteJÁ | Todos os direitos reservados. Desenvolvido pela equipe DescarteJÁ</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#home" class="back-to-top" aria-label="Voltar ao topo">
+        <i class="fas fa-chevron-up"></i>
+    </a>
 
     <script>
+        // Menu mobile toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isExpanded = navLinks.classList.contains('active');
+            navToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
         // Efeito suave de rolagem para os links internos
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
+        });
+
+        // Form submission simulation
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate form submission
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Mensagem Enviada!';
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    contactForm.reset();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Adiciona animação de entrada aos elementos ao rolar
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animação
+        document.querySelectorAll('.material-card, .about-section, .contact-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
