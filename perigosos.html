@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resíduos Perigosos - DescarteJÁ</title>
+    <meta name="description" content="Aprenda sobre descarte seguro de resíduos perigosos - materiais que representam risco à saúde e ao meio ambiente. Guia completo com procedimentos de segurança.">
+    <title>Resíduos Perigosos - DescarteJÁ: Descarte Seguro e Procedimentos de Emergência</title>
 
     <!-- Fontes modernas -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,14 +15,18 @@
     <style>
         :root {
             --primary-color: #d32f2f;
-            --secondary-color: #b71c1c;
-            --accent-color: #f44336;
+            --primary-dark: #b71c1c;
+            --primary-light: #f44336;
             --light-red: #ffcdd2;
             --text-color: #333333;
             --light-text: #666666;
             --bg-color: #f8f9fa;
             --card-bg: #ffffff;
             --footer-bg: #2d3748;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 15px;
         }
 
         * {
@@ -30,24 +35,48 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.7;
             font-size: 18px;
+            overflow-x: hidden;
         }
 
         a {
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* Navbar */
@@ -58,13 +87,14 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
-            .navbar .container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         .logo {
             display: flex;
@@ -86,40 +116,52 @@
             align-items: center;
         }
 
-            .nav-links a {
-                font-size: 1.1rem;
-                padding: 8px 16px;
-                color: var(--text-color);
-                font-weight: 500;
-                border-radius: 6px;
-                transition: all 0.3s;
-            }
+        .nav-links a {
+            font-size: 1.1rem;
+            padding: 8px 16px;
+            color: var(--text-color);
+            font-weight: 500;
+            border-radius: 6px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-                .nav-links a:hover {
-                    background-color: var(--primary-color);
-                    color: white;
-                }
+        .nav-links a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
 
         /* Cabeçalho da Página */
         .page-header {
             background: linear-gradient(135deg, var(--primary-color), var(--light-red));
             color: white;
-            padding: 80px 0 60px;
+            padding: 100px 0 70px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-            .page-header::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-                background-size: cover;
-            }
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
 
         .page-header-content {
             position: relative;
@@ -164,17 +206,27 @@
 
         .main-content {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .main-content:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .sidebar {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
             align-self: start;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         /* Títulos e Seções */
@@ -185,21 +237,21 @@
             position: relative;
         }
 
-            .section-title h2 {
-                font-size: 2rem;
-                color: var(--primary-color);
-                font-weight: 700;
-            }
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
 
-            .section-title::after {
-                content: "";
-                position: absolute;
-                bottom: -3px;
-                left: 0;
-                width: 80px;
-                height: 3px;
-                background: var(--light-red);
-            }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: var(--light-red);
+        }
 
         /* Tipos de Resíduos Perigosos */
         .hazard-types {
@@ -213,15 +265,28 @@
             background: var(--card-bg);
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
             border-left: 5px solid var(--primary-color);
-            transition: transform 0.3s ease;
+            transition: var(--transition);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-            .hazard-card:hover {
-                transform: translateY(-5px);
-            }
+        .hazard-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-color), var(--light-red));
+        }
+
+        .hazard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
 
         .hazard-icon {
             font-size: 3rem;
@@ -247,6 +312,18 @@
             justify-content: center;
             color: var(--primary-color);
             font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .hazard-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .hazard-card:hover .hazard-image img {
+            transform: scale(1.05);
         }
 
         /* Listas Estilizadas */
@@ -255,33 +332,33 @@
             margin: 25px 0;
         }
 
-            .styled-list li {
-                padding: 15px 0 15px 50px;
-                position: relative;
-                border-bottom: 1px solid #eee;
-                font-size: 1.1rem;
-            }
+        .styled-list li {
+            padding: 15px 0 15px 50px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1rem;
+        }
 
-                .styled-list li:last-child {
-                    border-bottom: none;
-                }
+        .styled-list li:last-child {
+            border-bottom: none;
+        }
 
-                .styled-list li::before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 30px;
-                    height: 30px;
-                    background-color: var(--light-red);
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    font-weight: bold;
-                }
+        .styled-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
 
         .good-list li::before {
             content: "✓";
@@ -296,10 +373,15 @@
         /* Dicas Section */
         .tips-section {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
             margin: 40px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .tips-section:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .tip-item {
@@ -310,6 +392,12 @@
             padding: 20px;
             background: rgba(255, 205, 210, 0.1);
             border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .tip-item:hover {
+            background: rgba(255, 205, 210, 0.2);
+            transform: translateX(5px);
         }
 
         .tip-icon {
@@ -327,10 +415,15 @@
         /* Fatos Interessantes */
         .facts-section {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
             margin: 40px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .facts-section:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .facts-grid {
@@ -345,30 +438,77 @@
             padding: 20px;
             border-radius: 10px;
             border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
         }
 
-            .fact-item h3 {
-                font-size: 1.2rem;
-                margin-bottom: 10px;
-                color: var(--primary-color);
-            }
+        .fact-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 205, 210, 0.3);
+        }
+
+        .fact-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
 
         /* Alertas Importantes */
         .warning-box {
             background: #fff3e0;
             border-left: 5px solid #ff9800;
-            padding: 20px;
+            padding: 25px;
             margin: 30px 0;
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
-            .warning-box h3 {
-                color: #ef6c00;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .warning-box:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .warning-box h3 {
+            color: #ef6c00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+
+        /* Vídeo Section */
+        .video-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .video-section:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
         /* Footer */
         footer {
@@ -393,37 +533,37 @@
             padding-bottom: 10px;
         }
 
-            .footer-column h3::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 2px;
-                background: var(--light-red);
-            }
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--light-red);
+        }
 
         .footer-links {
             list-style: none;
         }
 
-            .footer-links li {
-                margin-bottom: 12px;
-            }
+        .footer-links li {
+            margin-bottom: 12px;
+        }
 
-            .footer-links a {
-                color: #9ca3af;
-                transition: all 0.3s;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                font-size: 1.1rem;
-            }
+        .footer-links a {
+            color: #9ca3af;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
 
-                .footer-links a:hover {
-                    color: white;
-                    padding-left: 5px;
-                }
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
 
         .social-links {
             display: flex;
@@ -431,23 +571,23 @@
             margin-top: 20px;
         }
 
-            .social-links a {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 45px;
-                height: 45px;
-                background-color: #374151;
-                border-radius: 50%;
-                color: white;
-                transition: all 0.3s;
-                font-size: 1.2rem;
-            }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: #374151;
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
 
-                .social-links a:hover {
-                    background-color: var(--primary-color);
-                    transform: translateY(-3px);
-                }
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
 
         .footer-bottom {
             text-align: center;
@@ -478,24 +618,88 @@
             cursor: pointer;
             font-size: 1.3rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
-            .font-btn:hover {
-                background: var(--secondary-color);
-                transform: scale(1.1);
-            }
+        .font-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--light-red));
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
 
         /* Responsividade */
         @media (max-width: 768px) {
             .navbar .container {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
             }
 
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-toggle {
+                display: block;
             }
 
             .page-title {
@@ -513,16 +717,48 @@
             .hazard-types {
                 grid-template-columns: 1fr;
             }
+
+            .back-to-top {
+                bottom: 80px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .accessibility-controls {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 80px 0 50px;
+            }
+
+            .main-content, .sidebar, .tips-section, .facts-section, .video-section {
+                padding: 20px;
+            }
+
+            .hazard-card {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Barra de progresso de leitura -->
+    <div class="reading-progress" id="readingProgress"></div>
+
     <header>
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Navegação principal">
             <div class="container">
                 <a href="index.html" class="logo">
                     <span class="logo-text">DescarteJÁ</span>
                 </a>
+                <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <ul class="nav-links">
                     <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="Materiais.html"><i class="fas fa-recycle"></i> Materiais</a></li>
@@ -533,180 +769,196 @@
         </nav>
     </header>
 
-    <section class="page-header">
-        <div class="page-header-content">
-            <div class="header-icon">
-                <i class="fas fa-exclamation-triangle"></i>
+    <main>
+        <section class="page-header">
+            <div class="page-header-content">
+                <div class="header-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1 class="page-title">Resíduos Perigosos</h1>
+                <p class="page-subtitle">Descarte seguro de materiais que representam risco à saúde e ao meio ambiente</p>
             </div>
-            <h1 class="page-title">Resíduos Perigosos</h1>
-            <p class="page-subtitle">Descarte seguro de materiais que representam risco à saúde e ao meio ambiente</p>
-        </div>
-    </section>
+        </section>
 
-    <div class="container">
-        <div class="warning-box">
-            <h3><i class="fas fa-exclamation-circle"></i> ATENÇÃO: CUIDADOS ESPECIAIS</h3>
-            <p>Resíduos perigosos exigem manejo especial. Nunca descarte no lixo comum. Sempre utilize pontos de coleta específicos para cada tipo de material.</p>
-        </div>
+        <div class="container">
+            <div class="warning-box">
+                <h3><i class="fas fa-exclamation-circle"></i> ATENÇÃO: CUIDADOS ESPECIAIS</h3>
+                <p>Resíduos perigosos exigem manejo especial. Nunca descarte no lixo comum. Sempre utilize pontos de coleta específicos para cada tipo de material. Em caso de acidente, entre em contato com o corpo de bombeiros (193) ou centro de controle de intoxicações.</p>
+            </div>
 
-        <div class="two-column-layout">
-            <div class="main-content">
-                <div class="section-title">
-                    <h2>Tipos de Resíduos Perigosos</h2>
+            <div class="two-column-layout">
+                <div class="main-content">
+                    <div class="section-title">
+                        <h2>Tipos de Resíduos Perigosos</h2>
+                    </div>
+
+                    <p>Estes materiais contêm substâncias tóxicas, corrosivas, inflamáveis ou reativas que podem causar sérios danos à saúde e ao meio ambiente.</p>
+
+                    <div class="hazard-types">
+                        <article class="hazard-card">
+                            <div class="hazard-icon">
+                                <i class="fas fa-battery-full"></i>
+                            </div>
+                            <h3>Pilhas e Baterias</h3>
+                            <div class="hazard-image">
+                                <img src="https://images.unsplash.com/photo-1605873876127-1f2c6dc7c6b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Pilhas e baterias para descarte seguro">
+                            </div>
+                            <p><strong>Contém:</strong> Metais pesados como chumbo, cádmio, mercúrio</p>
+                            <p><strong>Riscos:</strong> Contaminação do solo e água</p>
+                        </article>
+
+                        <article class="hazard-card">
+                            <div class="hazard-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3>Lâmpadas Fluorescentes</h3>
+                            <div class="hazard-image">
+                                <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Lâmpadas fluorescentes para descarte seguro">
+                            </div>
+                            <p><strong>Contém:</strong> Mercúrio na forma de vapor</p>
+                            <p><strong>Riscos:</strong> Toxicidade por inalação</p>
+                        </article>
+
+                        <article class="hazard-card">
+                            <div class="hazard-icon">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                            <h3>Medicamentos</h3>
+                            <div class="hazard-image">
+                                <img src="https://images.unsplash.com/photo-1585435557343-3b092031d5ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Medicamentos vencidos para descarte seguro">
+                            </div>
+                            <p><strong>Contém:</strong> Substâncias farmacologicamente ativas</p>
+                            <p><strong>Riscos:</strong> Contaminação da água e solo</p>
+                        </article>
+
+                        <article class="hazard-card">
+                            <div class="hazard-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>Produtos Químicos</h3>
+                            <div class="hazard-image">
+                                <img src="https://images.unsplash.com/photo-1603126857597-70089f0d92ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Produtos químicos para descarte seguro">
+                            </div>
+                            <p><strong>Inclui:</strong> Tintas, solventes, produtos de limpeza</p>
+                            <p><strong>Riscos:</strong> Toxicidade, inflamabilidade</p>
+                        </article>
+                    </div>
                 </div>
 
-                <p>Estes materiais contêm substâncias tóxicas, corrosivas, inflamáveis ou reativas que podem causar sérios danos à saúde e ao meio ambiente.</p>
+                <aside class="sidebar">
+                    <div class="section-title">
+                        <h2>Procedimentos de Segurança</h2>
+                    </div>
 
-                <div class="hazard-types">
-                    <div class="hazard-card">
-                        <div class="hazard-icon">
-                            <i class="fas fa-battery-full"></i>
-                        </div>
+                    <h3 style="color: var(--primary-color); margin: 20px 0 10px;">✅ O Que Fazer:</h3>
+                    <ul class="styled-list good-list">
+                        <li>Mantenha na embalagem original</li>
+                        <li>Identifique claramente o conteúdo</li>
+                        <li>Leve a pontos de coleta específicos</li>
+                        <li>Armazene em local seguro e ventilado</li>
+                        <li>Use luvas ao manusear</li>
+                    </ul>
+
+                    <h3 style="color: #e53935; margin: 20px 0 10px;">❌ O Que Evitar:</h3>
+                    <ul class="styled-list bad-list">
+                        <li>Nunca descarte no lixo comum</li>
+                        <li>Não queime ou incinere</li>
+                        <li>Evite contato com pele e olhos</li>
+                        <li>Não misture diferentes tipos</li>
+                        <li>Não descarte no vaso sanitário</li>
+                    </ul>
+                </aside>
+            </div>
+
+            <section class="video-section">
+                <div class="section-title">
+                    <h2>Aprenda Sobre Descarte de Resíduos Perigosos</h2>
+                </div>
+
+                <p style="margin-bottom: 30px; font-size: 1.2rem; color: var(--light-text);">
+                    Assista ao vídeo e descubra os procedimentos corretos para descarte seguro de resíduos perigosos e sua importância para a saúde pública
+                </p>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/9Q8eGdZ0W-o" title="Vídeo educativo sobre descarte de resíduos perigosos" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <section class="tips-section">
+                <div class="section-title">
+                    <h2>Descarte Correto por Tipo</h2>
+                </div>
+
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </div>
+                    <div class="tip-content">
                         <h3>Pilhas e Baterias</h3>
-                        <img src="https://images.unsplash.com/photo-1612965110642-d2ed35011901?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1074" width="450" height="310">
-                            <i class="fas fa-battery-full"></i>
-                        </div>
-                        <p><strong>Contém:</strong> Metais pesados como chumbo, cádmio, mercúrio</p>
-                        <p><strong>Riscos:</strong> Contaminação do solo e água</p>
+                        <p>Leve a pontos de coleta em supermercados, lojas de eletrônicos ou ecopontos. As baterias de lítio devem ter os terminais cobertos com fita isolante para evitar curtos-circuitos.</p>
                     </div>
+                </div>
 
-                    <div class="hazard-card">
-                        <div class="hazard-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="tip-content">
                         <h3>Lâmpadas Fluorescentes</h3>
-                        <img src="https://static.mundoeducacao.uol.com.br/mundoeducacao/2023/11/lampadas-fluorescentes-amontoadas.jpg" width="450" height="310">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <p><strong>Contém:</strong> Mercúrio na forma de vapor</p>
-                        <p><strong>Riscos:</strong> Toxicidade por inalação</p>
-                    </div>
-
-                    <div class="hazard-card">
-                        <div class="hazard-icon">
-                            <i class="fas fa-pills"></i>
-                        </div>
-                        <h3>Medicamentos</h3>
-                        <img src="https://img.freepik.com/vetores-gratis/composicao-de-medicamentos-de-saude-com-imagens-de-comprimidos-em-bolhas-e-frascos-de-capsulas-de-gotas-e-xaropes-ilustracao-vetorial_1284-71689.jpg?semt=ais_hybrid&w=740&q=80" width="450" height="310">
-                            <i class="fas fa-pills"></i>
-                        </div>
-                        <p><strong>Contém:</strong> Substâncias farmacologicamente ativas</p>
-                        <p><strong>Riscos:</strong> Contaminação da água e solo</p>
-                    </div>
-
-                    <div class="hazard-card">
-                        <div class="hazard-icon">
-                            <i class="fas fa-flask"></i>
-                        </div>
-                        <h3>Produtos Químicos</h3>
-                        <img src="https://maxmaq.com.br/wp-content/uploads/2020/11/produtos-quimicos.png" width="450" height="310">
-                            <i class="fas fa-flask"></i>
-                        </div>
-                        <p><strong>Inclui:</strong> Tintas, solventes, produtos de limpeza</p>
-                        <p><strong>Riscos:</strong> Toxicidade, inflamabilidade</p>
+                        <p>Embrulhe em papel ou plástico bolha para evitar quebra. Descarte em lojas de material de construção ou pontos específicos. Lâmpadas LED podem ser descartadas como eletrônicos.</p>
                     </div>
                 </div>
-            </div>
 
-            <div class="sidebar">
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-capsules"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Medicamentos Vencidos</h3>
+                        <p>Devolva às farmácias ou postos de saúde. Mantenha na embalagem original. Nunca descarte no vaso sanitário ou pia, pois contaminam a água.</p>
+                    </div>
+                </div>
+
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-spray-can"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Produtos Químicos Domésticos</h3>
+                        <p>Leve a ecopontos ou estações de reciclagem. Mantenha na embalagem original bem fechada. Produtos como óleo de cozinha podem ser reciclados separadamente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="facts-section">
                 <div class="section-title">
-                    <h2>Procedimentos de Segurança</h2>
+                    <h2>Impactos e Importância do Descarte Correto</h2>
                 </div>
 
-                <h3 style="color: var(--primary-color); margin: 20px 0 10px;">✅ O Que Fazer:</h3>
-                <ul class="styled-list good-list">
-                    <li>Mantenha na embalagem original</li>
-                    <li>Identifique claramente o conteúdo</li>
-                    <li>Leve a pontos de coleta específicos</li>
-                    <li>Armazene em local seguro e ventilado</li>
-                    <li>Use luvas ao manusear</li>
-                </ul>
+                <div class="facts-grid">
+                    <article class="fact-item">
+                        <h3>Contaminação da Água</h3>
+                        <p>Uma única pilha pode contaminar 30 mil litros de água com metais pesados, tornando-a imprópria para consumo.</p>
+                    </article>
 
-                <h3 style="color: #e53935; margin: 20px 0 10px;">❌ O Que Evitar:</h3>
-                <ul class="styled-list bad-list">
-                    <li>Nunca descarte no lixo comum</li>
-                    <li>Não queime ou incinere</li>
-                    <li>Evite contato com pele e olhos</li>
-                    <li>Não misture diferentes tipos</li>
-                    <li>Não descarte no vaso sanitário</li>
-                </ul>
-            </div>
+                    <article class="fact-item">
+                        <h3>Mercúrio nas Lâmpadas</h3>
+                        <p>Cada lâmpada fluorescente contém de 3 a 15 mg de mercúrio, suficiente para contaminar 20 mil litros de água.</p>
+                    </article>
+
+                    <article class="fact-item">
+                        <h3>Medicamentos na Natureza</h3>
+                        <p>Antibióticos descartados incorretamente contribuem para o desenvolvimento de superbactérias resistentes.</p>
+                    </article>
+
+                    <article class="fact-item">
+                        <h3>Reciclagem de Eletrônicos</h3>
+                        <p>O Brasil produz mais de 2 milhões de toneladas de lixo eletrônico por ano, mas recicla menos de 3%.</p>
+                    </article>
+                </div>
+            </section>
         </div>
-
-        <div class="tips-section">
-            <div class="section-title">
-                <h2>Descarte Correto por Tipo</h2>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-battery-three-quarters"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Pilhas e Baterias</h3>
-                    <p>Leve a pontos de coleta em supermercados, lojas de eletrônicos ou ecopontos. As baterias de lítio devem ter os terminais cobertos com fita isolante para evitar curtos-circuitos.</p>
-                </div>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Lâmpadas Fluorescentes</h3>
-                    <p>Embrulhe em papel ou plástico bolha para evitar quebra. Descarte em lojas de material de construção ou pontos específicos. Lâmpadas LED podem ser descartadas como eletrônicos.</p>
-                </div>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-capsules"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Medicamentos Vencidos</h3>
-                    <p>Devolva às farmácias ou postos de saúde. Mantenha na embalagem original. Nunca descarte no vaso sanitário ou pia, pois contaminam a água.</p>
-                </div>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-spray-can"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Produtos Químicos Domésticos</h3>
-                    <p>Leve a ecopontos ou estações de reciclagem. Mantenha na embalagem original bem fechada. Produtos como óleo de cozinha podem ser reciclados separadamente.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="facts-section">
-            <div class="section-title">
-                <h2>Impactos e Importância do Descarte Correto</h2>
-            </div>
-
-            <div class="facts-grid">
-                <div class="fact-item">
-                    <h3>Contaminação da Água</h3>
-                    <p>Uma única pilha pode contaminar 30 mil litros de água com metais pesados, tornando-a imprópria para consumo.</p>
-                </div>
-
-                <div class="fact-item">
-                    <h3>Mercúrio nas Lâmpadas</h3>
-                    <p>Cada lâmpada fluorescente contém de 3 a 15 mg de mercúrio, suficiente para contaminar 20 mil litros de água.</p>
-                </div>
-
-                <div class="fact-item">
-                    <h3>Medicamentos na Natureza</h3>
-                    <p>Antibióticos descartados incorretamente contribuem para o desenvolvimento de superbactérias resistentes.</p>
-                </div>
-
-                <div class="fact-item">
-                    <h3>Reciclagem de Eletrônicos</h3>
-                    <p>O Brasil produz mais de 2 milhões de toneladas de lixo eletrônico por ano, mas recicla menos de 3%.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <footer>
         <div class="container">
@@ -715,10 +967,10 @@
                     <h3>DescarteJÁ</h3>
                     <p>Sua plataforma de referência para descarte adequado de resíduos. Juntos podemos construir um futuro mais sustentável.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
 
@@ -760,13 +1012,57 @@
         </div>
     </footer>
 
+    <a href="#" class="back-to-top" aria-label="Voltar ao topo">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
     <div class="accessibility-controls">
-        <button class="font-btn" onclick="increaseFontSize()" title="Aumentar fonte">A+</button>
-        <button class="font-btn" onclick="resetFontSize()" title="Reduzir fonte">A-</button>
+        <button class="font-btn" onclick="increaseFontSize()" title="Aumentar fonte" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button class="font-btn" onclick="resetFontSize()" title="Reduzir fonte" aria-label="Reduzir tamanho da fonte">A-</button>
     </div>
 
     <script>
-        // Função para aumentar ainda mais o tamanho da fonte se necessário
+        // Menu mobile toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isExpanded = navLinks.classList.contains('active');
+            navToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        // Barra de progresso de leitura
+        const readingProgress = document.getElementById('readingProgress');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset;
+            const progress = (scrollTop / documentHeight) * 100;
+            readingProgress.style.width = `${progress}%`;
+        });
+
+        // Função para aumentar o tamanho da fonte
         function increaseFontSize() {
             const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
             document.body.style.fontSize = (currentSize + 2) + 'px';
@@ -782,13 +1078,35 @@
         }
 
         // Aplicar tamanho salvo ao carregar a página
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const savedSize = localStorage.getItem('fontSize');
             if (savedSize) {
                 document.body.style.fontSize = savedSize;
             }
         });
+
+        // Adiciona animação de entrada aos elementos ao rolar
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animação
+        document.querySelectorAll('.hazard-card, .tip-item, .fact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
     </script>
 </body>
-
 </html>
