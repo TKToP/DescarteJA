@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resíduos Orgânicos - DescarteJÁ</title>
+    <meta name="description" content="Aprenda sobre compostagem doméstica e o descarte correto de resíduos orgânicos. Guia completo com dicas práticas para transformar restos de alimentos em adubo natural.">
+    <title>Resíduos Orgânicos - DescarteJÁ: Compostagem Doméstica</title>
 
     <!-- Fontes modernas -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,14 +15,18 @@
     <style>
         :root {
             --primary-color: #2e7d32;
-            --secondary-color: #1b5e20;
-            --accent-color: #4caf50;
+            --primary-dark: #1b5e20;
+            --primary-light: #4caf50;
             --light-green: #c8e6c9;
             --text-color: #333333;
             --light-text: #666666;
             --bg-color: #ffffff;
             --card-bg: #f8f9fa;
             --footer-bg: #2d3748;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 15px;
         }
 
         * {
@@ -30,24 +35,48 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.7;
             font-size: 18px;
+            overflow-x: hidden;
         }
 
         a {
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* Navbar */
@@ -58,13 +87,14 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
-            .navbar .container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         .logo {
             display: flex;
@@ -86,40 +116,52 @@
             align-items: center;
         }
 
-            .nav-links a {
-                font-size: 1.1rem;
-                padding: 8px 16px;
-                color: var(--text-color);
-                font-weight: 500;
-                border-radius: 6px;
-                transition: all 0.3s;
-            }
+        .nav-links a {
+            font-size: 1.1rem;
+            padding: 8px 16px;
+            color: var(--text-color);
+            font-weight: 500;
+            border-radius: 6px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-                .nav-links a:hover {
-                    background-color: var(--primary-color);
-                    color: white;
-                }
+        .nav-links a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
 
         /* Cabeçalho da Página */
         .page-header {
             background: linear-gradient(135deg, var(--primary-color), var(--light-green));
             color: white;
-            padding: 80px 0 60px;
+            padding: 100px 0 70px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-            .page-header::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-                background-size: cover;
-            }
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
 
         .page-header-content {
             position: relative;
@@ -164,17 +206,27 @@
 
         .main-content {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .main-content:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .sidebar {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
             align-self: start;
+            transition: var(--transition);
+        }
+
+        .sidebar:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         /* Títulos e Seções */
@@ -185,21 +237,21 @@
             position: relative;
         }
 
-            .section-title h2 {
-                font-size: 2rem;
-                color: var(--primary-color);
-                font-weight: 700;
-            }
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
 
-            .section-title::after {
-                content: "";
-                position: absolute;
-                bottom: -3px;
-                left: 0;
-                width: 80px;
-                height: 3px;
-                background: var(--light-green);
-            }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: var(--light-green);
+        }
 
         /* Tipos de Resíduos Orgânicos */
         .organic-types {
@@ -213,15 +265,28 @@
             background: var(--card-bg);
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
             border-left: 5px solid var(--primary-color);
-            transition: transform 0.3s ease;
+            transition: var(--transition);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-            .organic-card:hover {
-                transform: translateY(-5px);
-            }
+        .organic-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-color), var(--light-green));
+        }
+
+        .organic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
 
         .organic-icon {
             font-size: 3rem;
@@ -247,6 +312,18 @@
             justify-content: center;
             color: var(--primary-color);
             font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .organic-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .organic-card:hover .organic-image img {
+            transform: scale(1.05);
         }
 
         /* Listas Estilizadas */
@@ -255,33 +332,33 @@
             margin: 25px 0;
         }
 
-            .styled-list li {
-                padding: 15px 0 15px 50px;
-                position: relative;
-                border-bottom: 1px solid #ddd;
-                font-size: 1.1rem;
-            }
+        .styled-list li {
+            padding: 15px 0 15px 50px;
+            position: relative;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.1rem;
+        }
 
-                .styled-list li:last-child {
-                    border-bottom: none;
-                }
+        .styled-list li:last-child {
+            border-bottom: none;
+        }
 
-                .styled-list li::before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 30px;
-                    height: 30px;
-                    background-color: var(--light-green);
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    font-weight: bold;
-                }
+        .styled-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
 
         .good-list li::before {
             content: "✓";
@@ -296,10 +373,15 @@
         /* Dicas Section */
         .tips-section {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
             margin: 40px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .tips-section:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .tip-item {
@@ -310,6 +392,12 @@
             padding: 20px;
             background: rgba(200, 230, 201, 0.1);
             border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .tip-item:hover {
+            background: rgba(200, 230, 201, 0.2);
+            transform: translateX(5px);
         }
 
         .tip-icon {
@@ -327,10 +415,15 @@
         /* Fatos Interessantes */
         .facts-section {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
             margin: 40px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .facts-section:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .facts-grid {
@@ -345,13 +438,19 @@
             padding: 20px;
             border-radius: 10px;
             border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
         }
 
-            .fact-item h3 {
-                font-size: 1.2rem;
-                margin-bottom: 10px;
-                color: var(--primary-color);
-            }
+        .fact-item:hover {
+            transform: translateY(-5px);
+            background: rgba(200, 230, 201, 0.3);
+        }
+
+        .fact-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
 
         /* Passo a Passo */
         .step-by-step {
@@ -362,6 +461,15 @@
             display: flex;
             margin-bottom: 30px;
             align-items: flex-start;
+            background: rgba(200, 230, 201, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .step:hover {
+            background: rgba(200, 230, 201, 0.2);
+            transform: translateX(5px);
         }
 
         .step-number {
@@ -377,26 +485,32 @@
             font-weight: bold;
             margin-right: 20px;
             flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .step-content {
             flex: 1;
         }
 
-            .step-content h3 {
-                font-size: 1.3rem;
-                margin-bottom: 10px;
-                color: var(--primary-color);
-            }
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
 
         /* Vídeo Section */
         .video-section {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 40px;
             margin: 40px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
             text-align: center;
+            transition: var(--transition);
+        }
+
+        .video-section:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .video-container {
@@ -405,23 +519,18 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
         }
 
-        .video-placeholder {
-            background: linear-gradient(135deg, var(--primary-color), var(--light-green));
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-
-            .video-placeholder i {
-                font-size: 4rem;
-                margin-bottom: 20px;
-                opacity: 0.9;
-            }
 
         /* Footer */
         footer {
@@ -446,37 +555,37 @@
             padding-bottom: 10px;
         }
 
-            .footer-column h3::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 2px;
-                background: var(--light-green);
-            }
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--light-green);
+        }
 
         .footer-links {
             list-style: none;
         }
 
-            .footer-links li {
-                margin-bottom: 12px;
-            }
+        .footer-links li {
+            margin-bottom: 12px;
+        }
 
-            .footer-links a {
-                color: #9ca3af;
-                transition: all 0.3s;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                font-size: 1.1rem;
-            }
+        .footer-links a {
+            color: #9ca3af;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
 
-                .footer-links a:hover {
-                    color: white;
-                    padding-left: 5px;
-                }
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
 
         .social-links {
             display: flex;
@@ -484,23 +593,23 @@
             margin-top: 20px;
         }
 
-            .social-links a {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 45px;
-                height: 45px;
-                background-color: #374151;
-                border-radius: 50%;
-                color: white;
-                transition: all 0.3s;
-                font-size: 1.2rem;
-            }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: #374151;
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
 
-                .social-links a:hover {
-                    background-color: var(--primary-color);
-                    transform: translateY(-3px);
-                }
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
 
         .footer-bottom {
             text-align: center;
@@ -531,24 +640,88 @@
             cursor: pointer;
             font-size: 1.3rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
-            .font-btn:hover {
-                background: var(--secondary-color);
-                transform: scale(1.1);
-            }
+        .font-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--light-green));
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
 
         /* Responsividade */
         @media (max-width: 768px) {
             .navbar .container {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
             }
 
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-toggle {
+                display: block;
             }
 
             .page-title {
@@ -576,16 +749,48 @@
                 margin-right: 0;
                 margin-bottom: 15px;
             }
+
+            .back-to-top {
+                bottom: 80px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .accessibility-controls {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 80px 0 50px;
+            }
+
+            .main-content, .sidebar, .tips-section, .facts-section, .video-section {
+                padding: 20px;
+            }
+
+            .organic-card {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Barra de progresso de leitura -->
+    <div class="reading-progress" id="readingProgress"></div>
+
     <header>
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Navegação principal">
             <div class="container">
                 <a href="index.html" class="logo">
                     <span class="logo-text">DescarteJÁ</span>
                 </a>
+                <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <ul class="nav-links">
                     <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="Materiais.html"><i class="fas fa-recycle"></i> Materiais</a></li>
@@ -596,236 +801,235 @@
         </nav>
     </header>
 
-    <section class="page-header">
-        <div class="page-header-content">
-            <div class="header-icon">
-                <i class="fas fa-leaf"></i>
+    <main>
+        <section class="page-header">
+            <div class="page-header-content">
+                <div class="header-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h1 class="page-title">Resíduos Orgânicos</h1>
+                <p class="page-subtitle">Transforme restos de alimentos em adubo natural através da compostagem doméstica</p>
             </div>
-            <h1 class="page-title">Resíduos Orgânicos</h1>
-            <p class="page-subtitle">Transforme restos de alimentos em adubo natural através da compostagem doméstica</p>
-        </div>
-    </section>
+        </section>
 
-    <div class="container">
-        <div class="two-column-layout">
-            <div class="main-content">
+        <div class="container">
+            <div class="two-column-layout">
+                <div class="main-content">
+                    <div class="section-title">
+                        <h2>O Que São Resíduos Orgânicos?</h2>
+                    </div>
+
+                    <p>Resíduos orgânicos são materiais de origem vegetal ou animal que podem se decompor naturalmente. Eles representam mais de 50% do lixo que produzimos em casa!</p>
+
+                    <p>Quando descartados corretamente através da compostagem, esses materiais se transformam em adubo nutritivo para plantas, em vez de causar problemas ambientais nos aterros sanitários.</p>
+
+                    <div class="organic-types">
+                        <article class="organic-card">
+                            <div class="organic-icon">
+                                <i class="fas fa-apple-alt"></i>
+                            </div>
+                            <h3>Restos de Frutas</h3>
+                            <div class="organic-image">
+                                <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Cascas e restos de frutas para compostagem">
+                            </div>
+                            <p><strong>Exemplos:</strong> Cascas de banana, maçã, laranja</p>
+                            <p><strong>Decomposição:</strong> Rápida - 2 a 4 semanas</p>
+                        </article>
+
+                        <article class="organic-card">
+                            <div class="organic-icon">
+                                <i class="fas fa-carrot"></i>
+                            </div>
+                            <h3>Restos de Legumes</h3>
+                            <div class="organic-image">
+                                <img src="https://images.unsplash.com/photo-1574856344993-131c632c7d57?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Restos de legumes para compostagem">
+                            </div>
+                            <p><strong>Exemplos:</strong> Cascas de batata, cenoura, cebola</p>
+                            <p><strong>Decomposição:</strong> Moderada - 4 a 8 semanas</p>
+                        </article>
+
+                        <article class="organic-card">
+                            <div class="organic-icon">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <h3>Borras e Chás</h3>
+                            <div class="organic-image">
+                                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Borra de café para compostagem">
+                            </div>
+                            <p><strong>Exemplos:</strong> Borra de café, saquinhos de chá</p>
+                            <p><strong>Decomposição:</strong> Rápida - 2 a 3 semanas</p>
+                        </article>
+
+                        <article class="organic-card">
+                            <div class="organic-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>Folhas e Grama</h3>
+                            <div class="organic-image">
+                                <img src="https://images.unsplash.com/photo-1598880940083-de4b21dabb3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Folhas e grama para compostagem">
+                            </div>
+                            <p><strong>Exemplos:</strong> Folhas secas, grama cortada</p>
+                            <p><strong>Decomposição:</strong> Variável - 2 a 12 meses</p>
+                        </article>
+                    </div>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="section-title">
+                        <h2>O Que Pode e Não Pode</h2>
+                    </div>
+
+                    <h3 style="color: var(--primary-color); margin: 20px 0 10px;">✅ Pode Compostar:</h3>
+                    <ul class="styled-list good-list">
+                        <li>Cascas de frutas, legumes e ovos</li>
+                        <li>Restos de alimentos crus</li>
+                        <li>Borras de café e saquinhos de chá</li>
+                        <li>Folhas, grama e pequenos galhos</li>
+                        <li>Pó de serra e serragem natural</li>
+                        <li>Esterco de animais herbívoros</li>
+                    </ul>
+
+                    <h3 style="color: #e53935; margin: 20px 0 10px;">❌ Evite Compostar:</h3>
+                    <ul class="styled-list bad-list">
+                        <li>Carnes, peixes e laticínios</li>
+                        <li>Gorduras, óleos e alimentos cozidos</li>
+                        <li>Fezes de cães e gatos</li>
+                        <li>Plantas doentes ou com pesticidas</li>
+                        <li>Madeira tratada ou pintada</li>
+                        <li>Cinzas de carvão</li>
+                    </ul>
+                </aside>
+            </div>
+
+            <section class="video-section">
                 <div class="section-title">
-                    <h2>O Que São Resíduos Orgânicos?</h2>
+                    <h2>Aprenda Sobre Compostagem</h2>
                 </div>
 
-                <p>Resíduos orgânicos são materiais de origem vegetal ou animal que podem se decompor naturalmente. Eles representam mais de 50% do lixo que produzimos em casa!</p>
+                <p style="margin-bottom: 30px; font-size: 1.2rem; color: var(--light-text);">
+                    Assista ao vídeo e descubra como fazer compostagem em casa de forma simples e eficiente
+                </p>
 
-                <p>Quando descartados corretamente através da compostagem, esses materiais se transformam em adubo nutritivo para plantas, em vez de causar problemas ambientais nos aterros sanitários.</p>
-
-                <div class="organic-types">
-                    <div class="organic-card">
-                        <div class="organic-icon">
-                            <i class="fas fa-apple-alt"></i>
-                        </div>
-                        <h3>Restos de Frutas</h3>
-                        <img src="https://www.hfbrasil.org.br/upload/galeria/0283372001472755437.png">
-                            <i class="fas fa-apple-alt"></i>
-                        </div>
-                        <p><strong>Exemplos:</strong> Cascas de banana, maçã, laranja</p>
-                        <p><strong>Decomposição:</strong> Rápida - 2 a 4 semanas</p>
-                    </div>
-
-                    <div class="organic-card">
-                        <div class="organic-icon">
-                            <i class="fas fa-carrot"></i>
-                        </div>
-                        <h3>Restos de Legumes</h3>
-                        <img src="https://media.istockphoto.com/id/1461675463/pt/foto/pile-of-organic-waste-for-composting-on-white-background-top-view.jpg?s=612x612&w=0&k=20&c=hL9vu91yQzOjLQY9kPV-Zdjml_PPhIfU3VUS3Mz1Eik=" width="450" height="310">
-                            <i class="fas fa-carrot"></i>
-                        </div>
-                        <p><strong>Exemplos:</strong> Cascas de batata, cenoura, cebola</p>
-                        <p><strong>Decomposição:</strong> Moderada - 4 a 8 semanas</p>
-                    </div>
-
-                    <div class="organic-card">
-                        <div class="organic-icon">
-                            <i class="fas fa-coffee"></i>
-                        </div>
-                        <h3>Borras e Chás</h3>
-                        <img src="https://www.casamarialucia.com/wp-content/uploads/2025/04/borra-de-cafe-nas-plantas.webp" width="450" height="310">
-                            <i class="fas fa-coffee"></i>
-                        </div>
-                        <p><strong>Exemplos:</strong> Borra de café, saquinhos de chá</p>
-                        <p><strong>Decomposição:</strong> Rápida - 2 a 3 semanas</p>
-                    </div>
-
-                    <div class="organic-card">
-                        <div class="organic-icon">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <h3>Folhas e Grama</h3>
-                        <img src="https://img.freepik.com/vetores-gratis/projeto-do-fundo-da-grama_1053-661.jpg?semt=ais_hybrid&w=740&q=80" width="450" height="310">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <p><strong>Exemplos:</strong> Folhas secas, grama cortada</p>
-                        <p><strong>Decomposição:</strong> Variável - 2 a 12 meses</p>
-                    </div>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/bUcwWW0sGO8" title="Vídeo educativo sobre compostagem doméstica" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-            </div>
+            </section>
 
-            <div class="sidebar">
+            <section class="main-content">
                 <div class="section-title">
-                    <h2>O Que Pode e Não Pode</h2>
+                    <h2>Como Fazer Compostagem Doméstica - Passo a Passo</h2>
                 </div>
 
-                <h3 style="color: var(--primary-color); margin: 20px 0 10px;">✅ Pode Compostar:</h3>
-                <ul class="styled-list good-list">
-                    <li>Cascas de frutas, legumes e ovos</li>
-                    <li>Restos de alimentos crus</li>
-                    <li>Borras de café e saquinhos de chá</li>
-                    <li>Folhas, grama e pequenos galhos</li>
-                    <li>Pó de serra e serragem natural</li>
-                    <li>Esterco de animais herbívoros</li>
-                </ul>
+                <div class="step-by-step">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Escolha do Local e Recipiente</h3>
+                            <p>Selecione um local bem drenado, com sombra parcial e fácil acesso. Pode ser no jardim, varanda ou até mesmo na cozinha com composteiras especiais. Para apartamentos, existem composteiras compactas que não produzem odor.</p>
+                        </div>
+                    </div>
 
-                <h3 style="color: #e53935; margin: 20px 0 10px;">❌ Evite Compostar:</h3>
-                <ul class="styled-list bad-list">
-                    <li>Carnes, peixes e laticínios</li>
-                    <li>Gorduras, óleos e alimentos cozidos</li>
-                    <li>Fezes de cães e gatos</li>
-                    <li>Plantas doentes ou com pesticidas</li>
-                    <li>Madeira tratada ou pintada</li>
-                    <li>Cinzas de carvão</li>
-                </ul>
-            </div>
-        </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Preparação do Material</h3>
+                            <p>Picote os resíduos em pedaços menores para acelerar a decomposição. Misture materiais úmidos (restos de comida) com materiais secos (folhas, serragem) na proporção de 2:1 para um equilíbrio ideal.</p>
+                        </div>
+                    </div>
 
-        <div class="video-section">
-            <div class="section-title">
-                <h2>Aprenda Sobre Compostagem</h2>
-            </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Montagem da Composteira</h3>
+                            <p>Comece com uma camada de galhos para drenagem. Adicione alternadamente camadas de materiais úmidos e secos. A última camada deve ser de material seco para evitar odores e insetos.</p>
+                        </div>
+                    </div>
 
-            <p style="margin-bottom: 30px; font-size: 1.2rem; color: var(--light-text);">
-                Assista ao vídeo e descubra como fazer compostagem em casa de forma simples e eficiente
-            </p>
-
-            <div class="video-container">
-                    <iframe width="560" height="315" src="https://www.youtube.com/watch?v=bUcwWW0sGO8" frameborder="0" allowfullscreen></iframe>
-                    <h3 style="margin-bottom: 10px; font-size: 1.5rem;">Vídeo Educativo sobre Compostagem</h3>
-                    <p style="opacity: 0.9;">Tutorial completo para iniciantes - 15 minutos</p>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Manutenção Regular</h3>
+                            <p>Revolva o composto a cada 15 dias para arejar. Mantenha a umidade similar à de uma esponja molhada - nem seca, nem encharcada. Em 2 a 3 meses, você terá adubo pronto para usar no jardim!</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <div class="main-content">
-            <div class="section-title">
-                <h2>Como Fazer Compostagem Doméstica - Passo a Passo</h2>
-            </div>
+            <section class="tips-section">
+                <div class="section-title">
+                    <h2>Dicas para uma Boa Compostagem</h2>
+                </div>
 
-            <div class="step-by-step">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Escolha do Local e Recipiente</h3>
-                        <p>Selecione um local bem drenado, com sombra parcial e fácil acesso. Pode ser no jardim, varanda ou até mesmo na cozinha com composteiras especiais. Para apartamentos, existem composteiras compactas que não produzem odor.</p>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Equilíbrio é Fundamental</h3>
+                        <p>Mantenha o equilíbrio entre materiais ricos em nitrogênio (restos de comida) e carbono (folhas secas, papel). Isso evita mau cheiro e acelera a decomposição. A proporção ideal é 2 partes de materiais úmidos para 1 parte de materiais secos.</p>
                     </div>
                 </div>
 
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Preparação do Material</h3>
-                        <p>Picote os resíduos em pedaços menores para acelerar a decomposição. Misture materiais úmidos (restos de comida) com materiais secos (folhas, serragem) na proporção de 2:1 para um equilíbrio ideal.</p>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Controle de Umidade</h3>
+                        <p>Se estiver muito seco, borrife água. Se estiver muito úmido, adicione mais materiais secos como serragem ou folhas. A umidade ideal é como a de uma esponja molhada - quando você aperta, deve sair apenas algumas gotas.</p>
                     </div>
                 </div>
 
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Montagem da Composteira</h3>
-                        <p>Comece com uma camada de galhos para drenagem. Adicione alternadamente camadas de materiais úmidos e secos. A última camada deve ser de material seco para evitar odores e insetos.</p>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Aeração Regular</h3>
+                        <p>Revolva o composto regularmente para fornecer oxigênio aos microorganismos. Isso também ajuda a distribuir o calor uniformemente e evita a formação de bolsões anaeróbicos que causam mau cheiro.</p>
                     </div>
                 </div>
 
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Manutenção Regular</h3>
-                        <p>Revolva o composto a cada 15 dias para arejar. Mantenha a umidade similar à de uma esponja molhada - nem seca, nem encharcada. Em 2 a 3 meses, você terá adubo pronto para usar no jardim!</p>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-ruler"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Tamanho dos Resíduos</h3>
+                        <p>Pique os resíduos em pedaços menores antes de adicionar à composteira. Quanto menores os pedaços, maior a superfície de contato e mais rápida será a decomposição. Pedaços de 2 a 5 cm são ideais.</p>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <section class="facts-section">
+                <div class="section-title">
+                    <h2>Fatos Interessantes sobre Resíduos Orgânicos</h2>
+                </div>
+
+                <div class="facts-grid">
+                    <article class="fact-item">
+                        <h3>Mais da Metade do Lixo</h3>
+                        <p>Os resíduos orgânicos representam mais de 50% do lixo doméstico no Brasil. Em algumas cidades, chega a 60% do total coletado.</p>
+                    </article>
+
+                    <article class="fact-item">
+                        <h3>Gás Metano</h3>
+                        <p>Quando decompostos em aterros, os orgânicos produzem gás metano, 25 vezes mais poluente que o CO₂ para a atmosfera.</p>
+                    </article>
+
+                    <article class="fact-item">
+                        <h3>Adubo Natural</h3>
+                        <p>1kg de resíduos orgânicos pode produzir até 300g de adubo natural de alta qualidade, rico em nutrientes para as plantas.</p>
+                    </article>
+
+                    <article class="fact-item">
+                        <h3>Tempo de Decomposição</h3>
+                        <p>Uma casca de banana leva apenas 2 anos para decompor no solo, enquanto no aterro sanitário levaria décadas devido à falta de oxigênio.</p>
+                    </article>
+                </div>
+            </section>
         </div>
-
-        <div class="tips-section">
-            <div class="section-title">
-                <h2>Dicas para uma Boa Compostagem</h2>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-balance-scale"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Equilíbrio é Fundamental</h3>
-                    <p>Mantenha o equilíbrio entre materiais ricos em nitrogênio (restos de comida) e carbono (folhas secas, papel). Isso evita mau cheiro e acelera a decomposição. A proporção ideal é 2 partes de materiais úmidos para 1 parte de materiais secos.</p>
-                </div>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-tint"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Controle de Umidade</h3>
-                    <p>Se estiver muito seco, borrife água. Se estiver muito úmido, adicione mais materiais secos como serragem ou folhas. A umidade ideal é como a de uma esponja molhada - quando você aperta, deve sair apenas algumas gotas.</p>
-                </div>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-wind"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Aeração Regular</h3>
-                    <p>Revolva o composto regularmente para fornecer oxigênio aos microorganismos. Isso também ajuda a distribuir o calor uniformemente e evita a formação de bolsões anaeróbicos que causam mau cheiro.</p>
-                </div>
-            </div>
-
-            <div class="tip-item">
-                <div class="tip-icon">
-                    <i class="fas fa-ruler"></i>
-                </div>
-                <div class="tip-content">
-                    <h3>Tamanho dos Resíduos</h3>
-                    <p>Pique os resíduos em pedaços menores antes de adicionar à composteira. Quanto menores os pedaços, maior a superfície de contato e mais rápida será a decomposição. Pedaços de 2 a 5 cm são ideais.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="facts-section">
-            <div class="section-title">
-                <h2>Fatos Interessantes sobre Resíduos Orgânicos</h2>
-            </div>
-
-            <div class="facts-grid">
-                <div class="fact-item">
-                    <h3>Mais da Metade do Lixo</h3>
-                    <p>Os resíduos orgânicos representam mais de 50% do lixo doméstico no Brasil. Em algumas cidades, chega a 60% do total coletado.</p>
-                </div>
-
-                <div class="fact-item">
-                    <h3>Gás Metano</h3>
-                    <p>Quando decompostos em aterros, os orgânicos produzem gás metano, 25 vezes mais poluente que o CO₂ para a atmosfera.</p>
-                </div>
-
-                <div class="fact-item">
-                    <h3>Adubo Natural</h3>
-                    <p>1kg de resíduos orgânicos pode produzir até 300g de adubo natural de alta qualidade, rico em nutrientes para as plantas.</p>
-                </div>
-
-                <div class="fact-item">
-                    <h3>Tempo de Decomposição</h3>
-                    <p>Uma casca de banana leva apenas 2 anos para decompor no solo, enquanto no aterro sanitário levaria décadas devido à falta de oxigênio.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <footer>
         <div class="container">
@@ -834,10 +1038,10 @@
                     <h3>DescarteJÁ</h3>
                     <p>Sua plataforma de referência para descarte adequado de resíduos. Juntos podemos construir um futuro mais sustentável.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
 
@@ -879,13 +1083,57 @@
         </div>
     </footer>
 
+    <a href="#" class="back-to-top" aria-label="Voltar ao topo">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
     <div class="accessibility-controls">
-        <button class="font-btn" onclick="increaseFontSize()" title="Aumentar fonte">A+</button>
-        <button class="font-btn" onclick="resetFontSize()" title="Reduzir fonte">A-</button>
+        <button class="font-btn" onclick="increaseFontSize()" title="Aumentar fonte" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button class="font-btn" onclick="resetFontSize()" title="Reduzir fonte" aria-label="Reduzir tamanho da fonte">A-</button>
     </div>
 
     <script>
-        // Função para aumentar ainda mais o tamanho da fonte se necessário
+        // Menu mobile toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isExpanded = navLinks.classList.contains('active');
+            navToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        // Barra de progresso de leitura
+        const readingProgress = document.getElementById('readingProgress');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset;
+            const progress = (scrollTop / documentHeight) * 100;
+            readingProgress.style.width = `${progress}%`;
+        });
+
+        // Função para aumentar o tamanho da fonte
         function increaseFontSize() {
             const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
             document.body.style.fontSize = (currentSize + 2) + 'px';
@@ -907,10 +1155,29 @@
                 document.body.style.fontSize = savedSize;
             }
         });
+
+        // Adiciona animação de entrada aos elementos ao rolar
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animação
+        document.querySelectorAll('.organic-card, .step, .tip-item, .fact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
     </script>
 </body>
-
 </html>
-
-
-
